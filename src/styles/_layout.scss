@@ -1,0 +1,25 @@
+.app {
+  height: 100vh;
+  display: flex;
+}
+
+.main-nav {
+  flex: 0;
+
+  @include small-breakpoint {
+    flex: 0 0 $app-sidebar-width;
+    transform: translate3D(0, 0, 0);
+  }
+}
+
+.secondary-nav {
+  flex: 1;
+  @include small-breakpoint {
+    flex: 0 0 $note-sidebar-width;
+    transform: translate3D(0, 0, 0);
+  }
+}
+
+.editor {
+  flex: 1;
+}
