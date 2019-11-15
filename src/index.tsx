@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./containers/App";
 import "./styles/index.scss";
 import * as serviceWorker from "./serviceWorker";
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import rootReducer from "slices";
 

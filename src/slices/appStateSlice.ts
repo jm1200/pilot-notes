@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
+import { createSlice, Slice } from "@reduxjs/toolkit";
 
-import { AppState } from "../types";
+import { AppState } from "types";
 
 const initialState: AppState = {
   darkTheme: false
@@ -18,5 +18,6 @@ const appStateSlice: Slice<AppState> = createSlice({
 });
 
 export const { toggleDarkTheme } = appStateSlice.actions;
+console.log(toggleDarkTheme());
 
 export default appStateSlice.reducer;

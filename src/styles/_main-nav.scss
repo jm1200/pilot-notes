@@ -2,4 +2,8 @@
   background: $app-sidebar-color;
   color: $light-font-color;
   flex: 0;
+
+  .main-nav-action-button-icon {
+    color: $icon-color;
+  }
 }

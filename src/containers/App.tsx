@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 //import data from "../data/alts.json";
-import MainNav from "../components/MainNav/MainNav";
-import SecondaryNav from "../components/SecondaryNav/SecondaryNav";
-import Editor from "../components/Editor/Editor";
+import MainNav from "./MainNav/MainNav";
+import SecondaryNav from "./SecondaryNav/SecondaryNav";
+import Editor from "./Editor/Editor";
 import { RootState } from "types";
 
 const App: React.FC = () => {
