@@ -11,3 +11,10 @@ export interface AltObject {
   b777: string;
   remarks: string;
 }
+
+export interface AppState {
+  darkTheme: boolean;
+}
+export interface RootState {
+  appState: AppState;
+}

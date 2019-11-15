@@ -8,18 +8,34 @@
 
   @include small-breakpoint {
     flex: 0 0 $app-sidebar-width;
-    transform: translate3D(0, 0, 0);
+  }
+
+  &.open {
+    flex: 0 0 $note-sidebar-width;
   }
 }
 
 .secondary-nav {
   flex: 1;
+
+  &.note-open {
+    flex: 0;
+  }
+
   @include small-breakpoint {
     flex: 0 0 $note-sidebar-width;
-    transform: translate3D(0, 0, 0);
+
+    &.note-open {
+      flex: 0 0 $note-sidebar-width;
+    }
   }
 }
 
 .editor {
-  flex: 1;
+  flex: 0;
+  width: 0;
+
+  @include small-breakpoint {
+    flex: 1;
+  }
 }

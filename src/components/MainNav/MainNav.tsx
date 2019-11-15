@@ -1,5 +1,4 @@
 import React from "react";
-import Options from "./Options/Options";
 import { Sun, Moon, Globe } from "react-feather";
 
 interface IMainNavProps {}
@@ -7,7 +6,7 @@ interface IMainNavProps {}
 const MainNav: React.FC<IMainNavProps> = props => {
   const dark = false;
   return (
-    <div className="main-nav">
+    <aside className="main-nav">
       <div className="options-container">
         <div className="options-list">
           <Globe className="options-icon" />
@@ -15,7 +14,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
         </div>
       </div>
       <h4>Main Nav</h4>
-    </div>
+    </aside>
   );
 };
 
