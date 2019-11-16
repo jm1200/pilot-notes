@@ -4,6 +4,7 @@ import { AppState } from "types";
 
 const initialState: AppState = {
   darkTheme: false,
+  alternatesTool: false,
   codeMirrorOptions: {
     mode: "gfm",
     theme: "base16-light",
@@ -26,13 +27,17 @@ const appStateSlice = createSlice({
     updateCodeMirrorOptions(state: AppState, action: PayloadAction) {
       const theme = state.darkTheme ? "new-moon" : "base16-light";
       state.codeMirrorOptions.theme = theme;
+    },
+    toggleAlternatesTool(state: AppState) {
+      state.alternatesTool = !state.alternatesTool;
     }
   }
 });
 
 export const {
   toggleDarkTheme,
-  updateCodeMirrorOptions
+  updateCodeMirrorOptions,
+  toggleAlternatesTool
 } = appStateSlice.actions;
 console.log(toggleDarkTheme());
 

@@ -23,7 +23,7 @@ const MainNavActionButton: React.FC<MainNavActionButtonProps> = props => {
     >
       <span>
         <IconCmp
-          size={18}
+          size={28}
           className="main-nav-action-button-icon"
           //   color={iconColor}
           aria-hidden="true"

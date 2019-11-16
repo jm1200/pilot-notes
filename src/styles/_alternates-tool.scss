@@ -1,0 +1,17 @@
+.alternates-tool-container {
+  position: absolute;
+  width: $note-sidebar-width + $app-sidebar-width;
+  top: 100px;
+  left: -$note-sidebar-width - $app-sidebar-width;
+  background: grey;
+  height: 100%;
+  transform: translate3D(-500px, 0, 0);
+  transition: all 1s ease;
+
+  &.open {
+    left: 0px;
+    transform: translate3D(0, 0, 0);
+  }
+}
+
+// calc(#{$app-sidebar-width}+#{$note-sidebar-width});

@@ -1,9 +1,43 @@
 .main-nav {
   background: $app-sidebar-color;
   color: $light-font-color;
-  flex: 0;
+  border-right: 1px solid darken($app-sidebar-color, 10%);
 
-  .main-nav-action-button-icon {
-    color: $icon-color;
+  .options-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .action-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: darken($app-sidebar-color, 3%);
+    padding: 1.3rem;
+    margin: 0 0.5rem;
+    border: none !important;
+
+    span {
+      height: 30px;
+      width: 30px;
+    }
+    &:hover {
+      background: $primary;
+      outline: none;
+
+      .action-button-icon {
+        stroke: white;
+      }
+    }
+    &:focus {
+      outline: none;
+    }
+
+    .main-nav-action-button-icon {
+      stroke: $light-font-color;
+    }
   }
 }
