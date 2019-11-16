@@ -2,10 +2,20 @@ $dark-sidebar: #333;
 $dark-editor: #3f3f3f;
 
 .dark {
+  .main-nav {
+    color: $light-font-color;
+  }
   .secondary-nav {
     background: darken($dark-sidebar, 4%);
+    color: $light-font-color;
   }
   .editor {
     background: #222 !important;
+  }
+  .alternates-tool-container {
+    .alternates-tool {
+      background: $dark-sidebar;
+      color: $light-font-color;
+    }
   }
 }
