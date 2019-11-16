@@ -1,0 +1,11 @@
+$dark-sidebar: #333;
+$dark-editor: #3f3f3f;
+
+.dark {
+  .secondary-nav {
+    background: darken($dark-sidebar, 4%);
+  }
+  .editor {
+    background: #222 !important;
+  }
+}

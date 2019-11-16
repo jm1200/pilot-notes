@@ -14,6 +14,7 @@ export interface AltObject {
 
 export interface AppState {
   darkTheme: boolean;
+  codeMirrorOptions: { [key: string]: any };
 }
 export interface RootState {
   appState: AppState;

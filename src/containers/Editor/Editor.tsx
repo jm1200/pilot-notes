@@ -5,25 +5,30 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/theme/base16-light.css";
 import "codemirror/mode/gfm/gfm";
 import "codemirror/addon/selection/active-line";
+import { useSelector } from "react-redux";
+import { RootState } from "types";
 
 interface IEditorProps {}
 
-const codeMirrorOptions = {
-  mode: "gfm",
-  theme: "base16-light",
-  lineNumbers: false,
-  lineWrapping: true,
-  styleActiveLine: { nonEmpty: true },
-  viewportMargin: Infinity,
-  keyMap: "default",
-  dragDrop: false
-};
+// const codeMirrorOptions = {
+//   mode: "gfm",
+//   theme: "base16-light",
+//   lineNumbers: false,
+//   lineWrapping: true,
+//   styleActiveLine: { nonEmpty: true },
+//   viewportMargin: Infinity,
+//   keyMap: "default",
+//   dragDrop: false
+// };
 
 const Editor: React.FC<IEditorProps> = props => {
+  const { codeMirrorOptions } = useSelector(
+    (state: RootState) => state.appState
+  );
   return (
     <>
       <CodeMirror
-        className={`editor`}
+        className="editor"
         value={""}
         options={codeMirrorOptions}
         editorDidMount={editor => {
