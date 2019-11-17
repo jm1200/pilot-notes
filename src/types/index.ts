@@ -20,3 +20,18 @@ export interface AppState {
 export interface RootState {
   appState: AppState;
 }
+
+export interface NoteItem {
+  id: string;
+  text: string;
+  created: string;
+  lastUpdated: string;
+  category?: string;
+  trash?: boolean;
+  favorite?: boolean;
+}
+
+export interface CategoryItem {
+  id: string;
+  name: string;
+}
