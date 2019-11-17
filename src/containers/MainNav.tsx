@@ -1,5 +1,5 @@
 import React from "react";
-import { Sun, Moon, Globe } from "react-feather";
+import { Sun, Moon, Globe, Plus } from "react-feather";
 import MainNavActionButton from "components/MainNavActionButton";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -27,7 +27,12 @@ const MainNav: React.FC<IMainNavProps> = props => {
 
   return (
     <aside className="main-nav">
-      <section className="options-container">
+      <section className="main-nav-actions">
+        <MainNavActionButton
+          handler={toggleAlternates}
+          icon={Plus}
+          label={"Add Note"}
+        />
         <MainNavActionButton
           handler={toggleAlternates}
           icon={Globe}
@@ -47,6 +52,8 @@ const MainNav: React.FC<IMainNavProps> = props => {
           />
         )}
       </section>
+      <section className="main-nav-body"></section>
+      <section className="main-nav-synced">Sync</section>
       <h4>Main Nav</h4>
     </aside>
   );
