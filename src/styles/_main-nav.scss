@@ -6,6 +6,12 @@
 
   @include small-breakpoint {
     width: $app-sidebar-width;
+    transform: translate3D(0, 0, 0);
+  }
+  &.open {
+    flex: 0 0 $note-sidebar-width;
+    transition: all 0.3s ease;
+    transform: translate3D(0, 0, 0);
   }
 
   &-actions {
@@ -48,10 +54,114 @@
   }
 
   &-body {
-    background: lightblue;
+    flex: 1;
+    padding-bottom: 3rem;
+
+    h2 {
+      margin: 0;
+      color: lighten($app-sidebar-color, 20%);
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+  }
+
+  &-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      background: lighten($app-sidebar-color, 5%);
+    }
+
+    &.active {
+      color: white;
+      background: darken($app-sidebar-color, 5%);
+
+      svg {
+        stroke: $primary;
+      }
+    }
+  }
+  &-icon {
+    margin-right: 0.75rem;
+  }
+
+  .category {
+    &-title {
+      margin-top: 1rem;
+      padding: 0.5rem;
+    }
+
+    &-list {
+      font-size: 0.9rem;
+
+      &-each {
+        cursor: pointer;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &:hover {
+          background: lighten($app-sidebar-color, 5%);
+
+          .category-options {
+            color: lighten($app-sidebar-color, 20%);
+          }
+        }
+
+        &.active {
+          background: darken($app-sidebar-color, 5%);
+
+          .category-list-name {
+            svg {
+              stroke: $primary;
+            }
+          }
+        }
+      }
+
+      &-name {
+        display: flex;
+        align-items: center;
+      }
+
+      .category-options {
+        color: transparent;
+      }
+    }
+    &-button {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      color: darken($light-font-color, 25%);
+      font-size: 0.8rem;
+      background: transparent;
+      border: none;
+      margin: 1rem 0.5rem;
+
+      svg {
+        margin-right: 0.75rem;
+      }
+      &:hover {
+        color: white;
+      }
+    }
   }
 
   &-synced {
-    background: lightgoldenrodyellow;
+    display: none;
+
+    @include small-breakpoint {
+      display: block;
+      border-top: 1px solid darken($app-sidebar-color, 5%);
+      border-right: 1px solid darken($app-sidebar-color, 10%);
+      width: $app-sidebar-width;
+      padding: 0.5rem;
+      position: absolute;
+      bottom: 0;
+    }
   }
 }

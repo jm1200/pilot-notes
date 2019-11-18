@@ -1,29 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppState } from "types";
-
-import seedNotes from "data/seed.json";
-
-const initialState: AppState = {
-  darkTheme: false,
-  alternatesTool: false,
-  notes: seedNotes,
-  activeNoteId: "1",
-  codeMirrorOptions: {
-    mode: "gfm",
-    theme: "base16-light",
-    lineNumbers: false,
-    lineWrapping: true,
-    styleActiveLine: { nonEmpty: true },
-    viewportMargin: Infinity,
-    keyMap: "default",
-    dragDrop: false
-  }
-};
+import { initialAppState } from "constants/initialStates";
 
 const appStateSlice = createSlice({
   name: "appState",
-  initialState,
+  initialState: initialAppState,
   reducers: {
     toggleDarkTheme(state: AppState) {
       state.darkTheme = !state.darkTheme;
@@ -34,6 +16,9 @@ const appStateSlice = createSlice({
     },
     toggleAlternatesTool(state: AppState) {
       state.alternatesTool = !state.alternatesTool;
+    },
+    toggleMainNav(state: AppState) {
+      state.navOpen = !state.navOpen;
     }
   }
 });

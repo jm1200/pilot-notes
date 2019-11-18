@@ -32,7 +32,11 @@ export interface AppState {
   codeMirrorOptions: { [key: string]: any };
   alternatesTool: boolean;
   notes: NoteItem[];
+  categories: CategoryItem[];
   activeNoteId: string;
+  activeFolder: string;
+  activeCategory: string;
+  navOpen: boolean;
 }
 
 export interface RootState {
