@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "text": "test title \n test note body",
+    "created": "createdAt",
+    "lastUpated": "lastUpdated",
+    "category": "",
+    "trash": false,
+    "favorite": false
+  },
+  {
+    "id": "2",
+    "text": "test title 2 \n test note body 2",
+    "created": "createdAt",
+    "lastUpated": "lastUpdated",
+    "category": "test",
+    "trash": false,
+    "favorite": false
+  },
+  {
+    "id": "3",
+    "text": "test title 3 \n test note body 3",
+    "created": "createdAt",
+    "lastUpated": "lastUpdated",
+    "category": "test",
+    "trash": false,
+    "favorite": true
+  },
+  {
+    "id": "4",
+    "text": "test title 4 \n test note body 4",
+    "created": "createdAt",
+    "lastUpated": "lastUpdated",
+    "category": "test",
+    "trash": true,
+    "favorite": false
+  }
+]

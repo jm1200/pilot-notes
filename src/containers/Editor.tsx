@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 import "codemirror/lib/codemirror.css";
@@ -10,45 +10,42 @@ import { RootState } from "types";
 
 interface IEditorProps {}
 
-// const codeMirrorOptions = {
-//   mode: "gfm",
-//   theme: "base16-light",
-//   lineNumbers: false,
-//   lineWrapping: true,
-//   styleActiveLine: { nonEmpty: true },
-//   viewportMargin: Infinity,
-//   keyMap: "default",
-//   dragDrop: false
-// };
-
 const Editor: React.FC<IEditorProps> = props => {
-  const { codeMirrorOptions } = useSelector(
+  const { activeNoteId, notes, codeMirrorOptions } = useSelector(
     (state: RootState) => state.appState
   );
+  const activeNote = notes.find(note => note.id === activeNoteId);
+
+  const handleEditorChange = (value: string) => {
+    //todo update note action
+    //setActiveNote({ ...activeNote, text: value });
+  };
+  if (!activeNote) {
+    return (
+      <div className="empty-editor v-center">
+        <div className="text-center">
+          <p>
+            <strong>Create a note</strong>
+          </p>
+          <p>
+            <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>N</kbd>
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <CodeMirror
         className="editor"
-        value={""}
+        value={activeNote.text}
         options={codeMirrorOptions}
         editorDidMount={editor => {
           editor.focus();
           editor.setCursor(0);
         }}
-        onKeyUp={editor => {
-          // if (editor.state.vim) {
-          //   _updateVimStateMode(
-          //     editor.state.vim.insertMode ? VimModes.insert : VimModes.default
-          //   )
-          // }
-        }}
         onBeforeChange={(editor, data, value) => {
-          // _updateNote({
-          //   id: activeNote.id,
-          //   text: value,
-          //   created: activeNote.created,
-          //   lastUpdated: moment().format(),
-          // })
+          handleEditorChange(value);
         }}
         onChange={(editor, data, value) => {
           if (!value) {

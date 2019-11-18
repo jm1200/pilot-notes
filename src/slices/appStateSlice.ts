@@ -2,9 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppState } from "types";
 
+import seedNotes from "data/seed.json";
+
 const initialState: AppState = {
   darkTheme: false,
   alternatesTool: false,
+  notes: seedNotes,
+  activeNoteId: "1",
   codeMirrorOptions: {
     mode: "gfm",
     theme: "base16-light",

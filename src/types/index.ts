@@ -12,15 +12,6 @@ export interface AltObject {
   remarks: string;
 }
 
-export interface AppState {
-  darkTheme: boolean;
-  codeMirrorOptions: { [key: string]: any };
-  alternatesTool: boolean;
-}
-export interface RootState {
-  appState: AppState;
-}
-
 export interface NoteItem {
   id: string;
   text: string;
@@ -34,4 +25,16 @@ export interface NoteItem {
 export interface CategoryItem {
   id: string;
   name: string;
+}
+
+export interface AppState {
+  darkTheme: boolean;
+  codeMirrorOptions: { [key: string]: any };
+  alternatesTool: boolean;
+  notes: NoteItem[];
+  activeNoteId: string;
+}
+
+export interface RootState {
+  appState: AppState;
 }
