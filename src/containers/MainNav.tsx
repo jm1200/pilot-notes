@@ -9,7 +9,8 @@ import {
   Trash2,
   ArrowRightCircle,
   Folder,
-  X
+  X,
+  Book
 } from "react-feather";
 import MainNavActionButton from "components/MainNavActionButton";
 import { useSelector, useDispatch } from "react-redux";
@@ -108,6 +109,15 @@ const MainNav: React.FC<IMainNavProps> = props => {
         )}
       </section>
       <section className="main-nav-body">
+        <div
+          className={`main-nav-link ${activeFolder === "all" ? "active" : ""}`}
+          onClick={() => {
+            swapFolder("all");
+          }}
+        >
+          <Book size={15} className="main-nav-icon" />
+          All Notes
+        </div>
         <div
           className={`main-nav-link ${
             activeFolder === "favourites" ? "active" : ""

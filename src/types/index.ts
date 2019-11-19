@@ -35,7 +35,7 @@ export interface AppState {
   categories: CategoryItem[];
   activeNoteId: string;
   activeFolder: string;
-  activeCategory: string;
+  activeCategoryId: string;
   navOpen: boolean;
 }
 

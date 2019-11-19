@@ -8,8 +8,8 @@ export const initialAppState: AppState = {
   navOpen: false,
   categories: seedData.categories,
   activeNoteId: "e0196fd9-d644-4ca8-aa58-467b8082993e",
-  activeFolder: "favourites",
-  activeCategory: "",
+  activeFolder: "all",
+  activeCategoryId: "",
   codeMirrorOptions: {
     mode: "gfm",
     theme: "base16-light",
