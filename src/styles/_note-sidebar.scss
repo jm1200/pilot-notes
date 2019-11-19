@@ -1,3 +1,27 @@
 .note-sidebar {
+  position: relative;
   background: $note-sidebar-color;
+  border-right: 1px solid darken($note-sidebar-color, 10%);
+  height: 100vh;
+
+  @include small-breakpoint {
+    position: static;
+  }
+
+  &-header {
+    padding: 0.5rem;
+    text-align: center;
+
+    .mobile-sidebar-options {
+      display: flex;
+    }
+    .toggle-mobile-nav {
+      padding: 0.25rem 1rem;
+      margin-right: 0.5rem;
+
+      @include small-breakpoint {
+        display: none;
+      }
+    }
+  }
 }

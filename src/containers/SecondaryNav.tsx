@@ -1,17 +1,23 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "types";
 import { Menu, Star, MoreHorizontal } from "react-feather";
 import { NoteItem } from "types";
 import { sortByFavourites, sortByLastUpdated, getNoteTitle } from "helpers";
+import { toggleMainNav, toggleNoteOpen } from "slices/appStateSlice";
 import _ from "lodash";
 
 interface ISecondaryNavProps {}
 
 const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
-  const { activeCategoryId, activeNoteId, activeFolder, notes } = useSelector(
-    (state: RootState) => state.appState
-  );
+  const {
+    activeCategoryId,
+    activeNoteId,
+    activeFolder,
+    notes,
+    navOpen,
+    noteOpen
+  } = useSelector((state: RootState) => state.appState);
   const [searchValue, setSearchValue] = useState("");
 
   const showEmptyTrash = activeFolder === "trash";
@@ -32,19 +38,29 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     .sort(sortByLastUpdated)
     .sort(sortByFavourites);
 
-  const handleOpenNav = () => {
-    console.log("todo: handle open mobile nav menu");
-  };
+  const dispatch = useDispatch();
+
+  const _setNavOpen = () => dispatch(toggleMainNav());
+  const _setNoteOpen = () => dispatch(toggleNoteOpen());
 
   const handleSearchNotes = (event: React.ChangeEvent<HTMLFormElement>) => {
     console.log("todo: handle search notes", event.target.value);
   };
 
+  const toggleNavOpen = () => {
+    console.log("test");
+    _setNavOpen();
+  };
+
+  const toggleNoteOpen = () => {
+    _setNoteOpen();
+  };
+
   return (
-    <div className="note-sidebar">
+    <div className={`note-sidebar ${noteOpen ? "note-open" : ""}`}>
       <div className="note-sidebar-header">
         <div className="mobile-sidebar-options">
-          <button className="toggle-mobile-nav" onClick={handleOpenNav}>
+          <button className="toggle-mobile-nav" onClick={toggleNavOpen}>
             <Menu />
           </button>
           <input

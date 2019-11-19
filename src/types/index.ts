@@ -37,6 +37,7 @@ export interface AppState {
   activeFolder: string;
   activeCategoryId: string;
   navOpen: boolean;
+  noteOpen: boolean;
 }
 
 export interface RootState {

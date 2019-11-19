@@ -19,6 +19,9 @@ const appStateSlice = createSlice({
     },
     toggleMainNav(state: AppState) {
       state.navOpen = !state.navOpen;
+    },
+    toggleNoteOpen(state: AppState) {
+      state.noteOpen = !state.noteOpen;
     }
   }
 });
@@ -26,7 +29,9 @@ const appStateSlice = createSlice({
 export const {
   toggleDarkTheme,
   updateCodeMirrorOptions,
-  toggleAlternatesTool
+  toggleAlternatesTool,
+  toggleMainNav,
+  toggleNoteOpen
 } = appStateSlice.actions;
 console.log(toggleDarkTheme());
 
