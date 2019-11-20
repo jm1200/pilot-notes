@@ -18,6 +18,8 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     navOpen,
     noteOpen
   } = useSelector((state: RootState) => state.appState);
+
+  console.log(activeNoteId);
   const [searchValue, setSearchValue] = useState("");
 
   const showEmptyTrash = activeFolder === "trash";
@@ -56,6 +58,10 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     _setNoteOpen();
   };
 
+  const handleNoteOptionsClick = (event: React.MouseEvent, noteId: string) => {
+    console.log("todo: handle note options click", noteId);
+  };
+
   return (
     <div className={`note-sidebar ${noteOpen ? "note-open" : ""}`}>
       <div className="note-sidebar-header">
@@ -73,6 +79,7 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
       </div>
       <div className="note-list">
         {filteredNotes.map(note => {
+          console.log(note.id === activeNoteId);
           let noteTitle: string | React.ReactElement = getNoteTitle(note.text);
           if (searchValue) {
             //todo: highlight note titles
@@ -102,7 +109,10 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
                   </>
                 )}
               </div>
-              <div className="note-options">
+              <div
+                className="note-options"
+                onClick={event => handleNoteOptionsClick(event, note.id)}
+              >
                 <MoreHorizontal size={15} />
               </div>
             </div>

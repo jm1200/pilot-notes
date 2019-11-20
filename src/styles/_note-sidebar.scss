@@ -1,12 +1,12 @@
 .note-sidebar {
-  position: relative;
+  // position: relative;
   background: $note-sidebar-color;
   border-right: 1px solid darken($note-sidebar-color, 10%);
   height: 100vh;
 
-  @include small-breakpoint {
-    position: static;
-  }
+  // @include small-breakpoint {
+  //   position: static;
+  // }
 
   &-header {
     padding: 0.5rem;
@@ -21,6 +21,74 @@
 
       @include small-breakpoint {
         display: none;
+      }
+    }
+  }
+
+  .note-list {
+    &-each {
+      cursor: pointer;
+      padding: 1rem 0.5rem;
+      border-bottom: 1px solid darken($note-sidebar-color, 8%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      line-height: 1.3;
+
+      .note-title {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        .icon {
+          flex: 0 0 20px;
+        }
+        .note-favorite {
+          stroke: $primary;
+        }
+      }
+
+      &:hover {
+        background: darken($note-sidebar-color, 5%);
+
+        .note-options {
+          color: $font-color;
+        }
+      }
+
+      @include small-breakpoint {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+
+        &.active {
+          background: $primary;
+          color: white;
+          border-bottom: 1px solid $primary;
+        }
+        &:hover {
+          .note-options {
+            color: white;
+          }
+        }
+        .note-favorite {
+          stroke: white;
+        }
+      }
+      .note-options {
+        display: none;
+
+        @include small-breakpoint {
+          display: block;
+          font-size: 1rem;
+          color: transparent;
+          padding: 0.5rem;
+          z-index: 1;
+          cursor: pointer;
+        }
+
+        &.active {
+          color: $font-color;
+        }
       }
     }
   }
