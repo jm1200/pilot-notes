@@ -22,6 +22,9 @@ const appStateSlice = createSlice({
     },
     toggleNoteOpen(state: AppState) {
       state.noteOpen = !state.noteOpen;
+    },
+    togglePreviewMarkdown(state: AppState) {
+      state.previewMarkdown = !state.previewMarkdown;
     }
   }
 });
@@ -31,7 +34,8 @@ export const {
   updateCodeMirrorOptions,
   toggleAlternatesTool,
   toggleMainNav,
-  toggleNoteOpen
+  toggleNoteOpen,
+  togglePreviewMarkdown
 } = appStateSlice.actions;
 console.log(toggleDarkTheme());
 

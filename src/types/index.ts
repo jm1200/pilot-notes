@@ -38,6 +38,8 @@ export interface AppState {
   activeCategoryId: string;
   navOpen: boolean;
   noteOpen: boolean;
+  loading: boolean;
+  previewMarkdown: boolean;
 }
 
 export interface RootState {
