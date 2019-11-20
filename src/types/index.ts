@@ -27,6 +27,8 @@ export interface CategoryItem {
   name: string;
 }
 
+export type Folder = "all" | "routes" | "trash" | "favourites";
+
 export interface AppState {
   darkTheme: boolean;
   codeMirrorOptions: { [key: string]: any };

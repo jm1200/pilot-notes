@@ -4,7 +4,12 @@ import { RootState } from "types";
 import { Menu, Star, MoreHorizontal } from "react-feather";
 import { NoteItem } from "types";
 import { sortByFavourites, sortByLastUpdated, getNoteTitle } from "helpers";
-import { toggleMainNav, toggleNoteOpen } from "slices/appStateSlice";
+import {
+  toggleMainNav,
+  toggleNoteOpen,
+  swapNote,
+  pruneNotes
+} from "slices/appStateSlice";
 import _ from "lodash";
 
 interface ISecondaryNavProps {}
@@ -44,18 +49,22 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
 
   const _setNavOpen = () => dispatch(toggleMainNav());
   const _setNoteOpen = () => dispatch(toggleNoteOpen());
+  const _swapNote = (noteId: string) => dispatch(swapNote(noteId));
+  const _pruneNotes = () => dispatch(pruneNotes());
 
   const handleSearchNotes = (event: React.ChangeEvent<HTMLFormElement>) => {
     console.log("todo: handle search notes", event.target.value);
   };
 
   const toggleNavOpen = () => {
-    console.log("test");
     _setNavOpen();
   };
 
-  const toggleNoteOpen = () => {
+  const handleSwapNote = (noteId: string) => {
+    console.log("swapping note: ", noteId);
+    _swapNote(noteId);
     _setNoteOpen();
+    _pruneNotes();
   };
 
   const handleNoteOptionsClick = (event: React.MouseEvent, noteId: string) => {
@@ -92,7 +101,7 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
                   : "note-list-each"
               }
               key={note.id}
-              //onCLick todo: setOpenNote, swapnotes, pruneNotes
+              onClick={() => handleSwapNote(note.id)}
             >
               <div className="note-title">
                 {note.favorite ? (
