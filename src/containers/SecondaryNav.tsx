@@ -20,11 +20,10 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     activeNoteId,
     activeFolder,
     notes,
-    navOpen,
-    noteOpen
+    noteOpen,
+    categories
   } = useSelector((state: RootState) => state.appState);
 
-  console.log(activeNoteId);
   const [searchValue, setSearchValue] = useState("");
 
   const showEmptyTrash = activeFolder === "trash";
@@ -45,6 +44,10 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     .sort(sortByLastUpdated)
     .sort(sortByFavourites);
 
+  const filteredCategories = categories.filter(
+    ({ id }) => id !== activeCategoryId
+  );
+
   const dispatch = useDispatch();
 
   const _setNavOpen = () => dispatch(toggleMainNav());
@@ -52,8 +55,8 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
   const _swapNote = (noteId: string) => dispatch(swapNote(noteId));
   const _pruneNotes = () => dispatch(pruneNotes());
 
-  const handleSearchNotes = (event: React.ChangeEvent<HTMLFormElement>) => {
-    console.log("todo: handle search notes", event.target.value);
+  const handleSearchNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
   };
 
   const toggleNavOpen = () => {
@@ -61,7 +64,6 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
   };
 
   const handleSwapNote = (noteId: string) => {
-    console.log("swapping note: ", noteId);
     _swapNote(noteId);
     _setNoteOpen();
     _pruneNotes();
@@ -80,7 +82,7 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
           </button>
           <input
             type="search"
-            onChange={event => handleSearchNotes}
+            onChange={event => handleSearchNotes(event)}
             placeholder="Search for notes"
           />
         </div>
@@ -88,7 +90,6 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
       </div>
       <div className="note-list">
         {filteredNotes.map(note => {
-          console.log(note.id === activeNoteId);
           let noteTitle: string | React.ReactElement = getNoteTitle(note.text);
           if (searchValue) {
             //todo: highlight note titles

@@ -24,10 +24,9 @@ export interface NoteItem {
 
 export interface CategoryItem {
   id: string;
-  name: string;
 }
 
-export type Folder = "all" | "routes" | "trash" | "favourites";
+export type Folder = "all" | "trash" | "favourites";
 
 export interface AppState {
   darkTheme: boolean;

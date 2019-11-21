@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 import "codemirror/lib/codemirror.css";
@@ -10,7 +10,11 @@ import { RootState, NoteItem } from "types";
 import ReactMarkdown from "react-markdown";
 import moment from "moment";
 import { ArrowLeft } from "react-feather";
-import { togglePreviewMarkdown, toggleNoteOpen } from "slices/appStateSlice";
+import {
+  togglePreviewMarkdown,
+  toggleNoteOpen,
+  updateNote
+} from "slices/appStateSlice";
 
 interface IEditorProps {}
 
@@ -31,9 +35,11 @@ const Editor: React.FC<IEditorProps> = props => {
 
   const _toggleNoteOpen = () => dispatch(toggleNoteOpen());
 
-  const handleEditorChange = (value: NoteItem) => {
-    //todo update note action
-    //setActiveNote({ ...activeNote, text: value });
+  const _updateNote = (note: NoteItem) => dispatch(updateNote(note));
+
+  const handleEditorChange = (note: NoteItem) => {
+    console.log("editor, ", note);
+    _updateNote(note);
   };
 
   const renderEditor = () => {

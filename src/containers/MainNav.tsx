@@ -8,7 +8,7 @@ import {
   Star,
   Trash2,
   ArrowRightCircle,
-  Folder,
+  Folder as FolderIcon,
   X,
   Book
 } from "react-feather";
@@ -17,37 +17,81 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   toggleDarkTheme,
   updateCodeMirrorOptions,
-  toggleAlternatesTool
+  toggleAlternatesTool,
+  swapCategory,
+  swapFolder,
+  addCategory,
+  addNote,
+  swapNote
 } from "slices/appStateSlice";
-import { RootState, CategoryItem } from "types";
+import { RootState, CategoryItem, Folder, NoteItem } from "types";
+import { newNote } from "helpers";
 
 interface IMainNavProps {}
 
 const MainNav: React.FC<IMainNavProps> = props => {
   const dispatch = useDispatch();
   //console.log(dispatch({ type: "test" }));
-  const { darkTheme, navOpen, activeFolder, categories } = useSelector(
-    (state: RootState) => state.appState
-  );
+  const {
+    darkTheme,
+    navOpen,
+    activeFolder,
+    categories,
+    activeNoteId,
+    activeCategoryId,
+    notes
+  } = useSelector((state: RootState) => state.appState);
+
+  const activeNote = notes.find(note => note.id === activeNoteId);
 
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
   const [tempCategoryName, setTempCategoryName] = useState("");
 
   const _addCategory = (category: CategoryItem) =>
-    console.log("todo: add category action", category);
+    dispatch(addCategory(category));
 
-  const toggleTheme = () => {
+  const _toggleDarkTheme = () => {
     dispatch(toggleDarkTheme());
     dispatch(updateCodeMirrorOptions());
   };
 
-  const toggleAlternates = () => {
-    dispatch(toggleAlternatesTool());
+  const _swapFolder = (folder: Folder) => dispatch(swapFolder(folder));
+
+  const _swapCategory = (categoryId: string) =>
+    dispatch(swapCategory(categoryId));
+
+  const _addNote = (note: NoteItem) => {
+    dispatch(addNote(note));
+  };
+  const _swapNote = (noteId: string) => {
+    dispatch(swapNote(noteId));
   };
 
-  const swapFolder = (folder: string) => {
-    console.log("todo swap folder function", folder);
+  const handleSwapFolder = (folder: Folder) => {
+    _swapFolder(folder);
+  };
+
+  const handleSwapCategory = (categoryId: string) => {
+    _swapCategory(categoryId);
+  };
+
+  const handleNewNote = () => {
+    if (activeFolder === "trash") {
+      _swapFolder("all");
+    }
+    if ((activeNote && activeNote.text !== "") || !activeNote) {
+      const note = newNote(
+        activeCategoryId,
+        activeFolder === "favourites" ? "favourites" : "all"
+      );
+      _addNote(note);
+      _swapNote(note.id);
+    }
+  };
+
+  const toggleAlternates = () => {
+    dispatch(toggleAlternatesTool());
   };
 
   const newTempCategoryHandler = () => {
@@ -66,11 +110,12 @@ const MainNav: React.FC<IMainNavProps> = props => {
     };
 
     if (
-      categories.find(cat => cat.name === category.name) ||
+      categories.find(cat => cat.id === category.id) ||
       category.name === ""
     ) {
       resetTempCategory();
     } else {
+      console.log("adding category, ", category);
       _addCategory(category);
       resetTempCategory();
     }
@@ -85,7 +130,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
     <aside className={navOpen ? "main-nav open" : "main-nav"}>
       <section className="main-nav-actions">
         <MainNavActionButton
-          handler={toggleAlternates}
+          handler={handleNewNote}
           icon={Plus}
           label={"Add Note"}
         />
@@ -96,13 +141,13 @@ const MainNav: React.FC<IMainNavProps> = props => {
         />
         {darkTheme ? (
           <MainNavActionButton
-            handler={toggleTheme}
+            handler={_toggleDarkTheme}
             icon={Sun}
             label={"choose theme"}
           />
         ) : (
           <MainNavActionButton
-            handler={toggleTheme}
+            handler={_toggleDarkTheme}
             icon={Moon}
             label={"choose theme"}
           />
@@ -112,7 +157,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
         <div
           className={`main-nav-link ${activeFolder === "all" ? "active" : ""}`}
           onClick={() => {
-            swapFolder("all");
+            handleSwapFolder("all");
           }}
         >
           <Book size={15} className="main-nav-icon" />
@@ -122,25 +167,25 @@ const MainNav: React.FC<IMainNavProps> = props => {
           className={`main-nav-link ${
             activeFolder === "favourites" ? "active" : ""
           }`}
-          onClick={() => swapFolder("favourites")}
+          onClick={() => handleSwapFolder("favourites")}
         >
           <Star size={15} className="main-nav-icon" />
           Favourites
         </div>
-        <div
+        {/* <div
           className={`main-nav-link ${
             activeFolder === "routes" ? "active" : ""
           }`}
-          onClick={() => swapFolder("routes")}
+          onClick={() => handleSwapFolder("routes")}
         >
           <ArrowRightCircle size={15} className="main-nav-icon" />
           Routes
-        </div>
+        </div> */}
         <div
           className={`main-nav-link ${
             activeFolder === "trash" ? "active" : ""
           }`}
-          onClick={() => swapFolder("trash")}
+          onClick={() => handleSwapFolder("trash")}
         >
           <Trash2 size={15} className="main-nav-icon" />
           Trash
@@ -149,12 +194,26 @@ const MainNav: React.FC<IMainNavProps> = props => {
           <h2>Categories</h2>
         </div>
         <div className="category-list">
+          <div
+            className="category-list-each"
+            onClick={() => handleSwapCategory("routes")}
+          >
+            <div className="category-list-name">
+              <ArrowRightCircle size={15} className="main-nav-icon" />
+              Routes
+            </div>
+          </div>
+
           {categories.map(category => {
             return (
-              <div key={category.id} className="category-list-each">
+              <div
+                key={category.id}
+                className="category-list-each"
+                onClick={() => handleSwapCategory(category.id)}
+              >
                 <form className="category-list-name">
-                  <Folder size={15} className="main-nav-icon" />
-                  {editingCategoryId == category.id ? "" : category.name}
+                  <FolderIcon size={15} className="main-nav-icon" />
+                  {editingCategoryId === category.id ? "" : category.id}
                 </form>
                 <div className="category-options">
                   <X size={12} aria-label="Remove category" />

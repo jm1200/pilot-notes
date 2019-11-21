@@ -41,7 +41,6 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
   };
 
   useEffect(() => {
-    console.log(altToolSelect);
     const filtered = data
       .map(line => {
         return {
@@ -59,7 +58,6 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
           line.airport.toLowerCase().includes(altToolInput)
       );
 
-    console.log(filtered[0]);
     setFilteredData(filtered);
   }, [altToolSelect, altToolInput]);
 

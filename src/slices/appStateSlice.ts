@@ -1,12 +1,36 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AppState, Folder } from "types";
+import { AppState, Folder, CategoryItem, NoteItem } from "types";
 import { initialAppState } from "constants/initialStates";
+import { newNote } from "helpers";
 
 const appStateSlice = createSlice({
   name: "appState",
   initialState: initialAppState,
   reducers: {
+    addCategory(state: AppState, action: PayloadAction<CategoryItem>) {
+      const newCategory = action.payload;
+      state.categories.push(newCategory);
+    },
+    addCategoryToNote(
+      state: AppState,
+      action: PayloadAction<{ noteId: string; categoryId: string }>
+    ) {
+      const { noteId, categoryId } = action.payload;
+      state.notes = state.notes.map(note =>
+        note.id === noteId ? { ...note, category: categoryId } : note
+      );
+    },
+    addNote(state: AppState, action: PayloadAction<NoteItem>) {
+      const newNote = action.payload;
+      state.notes.push(newNote);
+    },
+    updateNote(state: AppState, action: PayloadAction<NoteItem>) {
+      const newNote = action.payload;
+      state.notes = state.notes.map(note =>
+        note.id === newNote.id ? newNote : note
+      );
+    },
     pruneNotes(state: AppState) {
       state.notes = state.notes.filter(
         note => note.text !== "" || note.id === state.activeNoteId
@@ -19,10 +43,12 @@ const appStateSlice = createSlice({
     swapCategory(state: AppState, action: PayloadAction<string>) {
       const categoryId = action.payload;
       state.activeCategoryId = categoryId;
+      state.activeFolder = "category";
     },
     swapFolder(state: AppState, action: PayloadAction<Folder>) {
       const folder = action.payload;
       state.activeFolder = folder;
+      state.activeCategoryId = "";
     },
     toggleDarkTheme(state: AppState) {
       state.darkTheme = !state.darkTheme;
@@ -47,6 +73,9 @@ const appStateSlice = createSlice({
 });
 
 export const {
+  addCategoryToNote,
+  addNote,
+  addCategory,
   pruneNotes,
   swapNote,
   swapCategory,
@@ -56,8 +85,8 @@ export const {
   toggleAlternatesTool,
   toggleMainNav,
   toggleNoteOpen,
-  togglePreviewMarkdown
+  togglePreviewMarkdown,
+  updateNote
 } = appStateSlice.actions;
-console.log(toggleDarkTheme());
 
 export default appStateSlice.reducer;
