@@ -21,9 +21,17 @@ import {
   swapFolder,
   addCategory,
   addNote,
-  swapNote
+  swapNote,
+  deleteCategory,
+  updateCategory
 } from "slices/appStateSlice";
-import { RootState, CategoryItem, Folder, NoteItem } from "types";
+import {
+  RootState,
+  CategoryItem,
+  Folder,
+  NoteItem,
+  ReactSubmitEvent
+} from "types";
 import { newNote } from "helpers";
 
 interface IMainNavProps {}
@@ -67,6 +75,14 @@ const MainNav: React.FC<IMainNavProps> = props => {
     dispatch(swapNote(noteId));
   };
 
+  const _updateCategory = (oldId: string, newId: string) => {
+    dispatch(updateCategory({ oldId, newId }));
+  };
+
+  const _deleteCategory = (categoryId: string) => {
+    dispatch(deleteCategory(categoryId));
+  };
+
   const handleSwapFolder = (folder: Folder) => {
     _swapFolder(folder);
   };
@@ -97,9 +113,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
     setAddingTempCategory(!addingTempCategory);
   };
 
-  const onSubmitNewCategory = (
-    event: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>
-  ) => {
+  const onSubmitNewCategory = (event: ReactSubmitEvent) => {
     event.preventDefault();
 
     const category = {
@@ -114,11 +128,32 @@ const MainNav: React.FC<IMainNavProps> = props => {
     ) {
       resetTempCategory();
     } else {
-      console.log("adding category, ", category);
       _addCategory(category);
       resetTempCategory();
     }
   };
+
+  const onSubmitUpdateCategory = (event: ReactSubmitEvent, oldCat: string) => {
+    event.preventDefault();
+
+    const category = {
+      id: tempCategoryName.trim(),
+      name: tempCategoryName.trim(),
+      draggedOver: false
+    };
+
+    if (
+      categories.find(cat => cat.id === category.id) ||
+      category.name === ""
+    ) {
+      resetTempCategory();
+    } else {
+      console.log("submitting ", tempCategoryName);
+      _updateCategory(oldCat, category.id);
+      resetTempCategory();
+    }
+  };
+
   const resetTempCategory = () => {
     setTempCategoryName("");
     setAddingTempCategory(false);
@@ -171,15 +206,6 @@ const MainNav: React.FC<IMainNavProps> = props => {
           <Star size={15} className="main-nav-icon" />
           Favorites
         </div>
-        {/* <div
-          className={`main-nav-link ${
-            activeFolder === "routes" ? "active" : ""
-          }`}
-          onClick={() => handleSwapFolder("routes")}
-        >
-          <ArrowRightCircle size={15} className="main-nav-icon" />
-          Routes
-        </div> */}
         <div
           className={`main-nav-link ${
             activeFolder === "trash" ? "active" : ""
@@ -211,12 +237,54 @@ const MainNav: React.FC<IMainNavProps> = props => {
                   category.id === activeCategoryId ? "active" : ""
                 }`}
                 onClick={() => handleSwapCategory(category.id)}
+                onDoubleClick={() => {
+                  setEditingCategoryId(category.id);
+                  setTempCategoryName(category.id);
+                }}
+                onBlur={() => {
+                  setEditingCategoryId("");
+                }}
               >
-                <form className="category-list-name">
+                <form
+                  className="category-list-name"
+                  onSubmit={event => {
+                    event.preventDefault();
+                    setEditingCategoryId("");
+                    onSubmitUpdateCategory(event, category.id);
+                  }}
+                >
                   <FolderIcon size={15} className="main-nav-icon" />
-                  {editingCategoryId === category.id ? "" : category.id}
+                  {editingCategoryId === category.id ? (
+                    <input
+                      type="text"
+                      autoFocus
+                      maxLength={20}
+                      className="category-edit"
+                      value={tempCategoryName}
+                      onChange={event => {
+                        setTempCategoryName(event.target.value);
+                      }}
+                      onBlur={event => {
+                        resetTempCategory();
+                      }}
+                    />
+                  ) : (
+                    category.id
+                  )}
                 </form>
-                <div className="category-options">
+                <div
+                  className="category-options"
+                  onClick={() => {
+                    const notesNotTrash = notes.filter(note => !note.trash);
+                    const newNoteId =
+                      notesNotTrash.length > 0 ? notesNotTrash[0].id : "";
+
+                    _deleteCategory(category.id);
+                    // _pruneCategoryFromNotes(category.id)
+                    _swapFolder("all");
+                    _swapNote(newNoteId);
+                  }}
+                >
                   <X size={12} aria-label="Remove category" />
                 </div>
               </div>

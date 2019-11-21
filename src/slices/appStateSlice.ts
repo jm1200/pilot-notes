@@ -136,6 +136,21 @@ const appStateSlice = createSlice({
       state.activeCategoryId = categoryId;
       state.activeFolder = "category";
       state.activeNoteId = getFirstNoteId("category", state.notes, categoryId);
+    },
+    updateCategory(
+      state: AppState,
+      action: PayloadAction<{ oldId: string; newId: string }>
+    ) {
+      const { oldId, newId } = action.payload;
+      state.categories = state.categories.map(category =>
+        category.id === oldId ? { name: newId, id: newId } : category
+      );
+    },
+    deleteCategory(state: AppState, action: PayloadAction<string>) {
+      const categoryId = action.payload;
+      state.categories = state.categories.filter(
+        category => category.id !== categoryId
+      );
     }
   }
 });
@@ -157,7 +172,9 @@ export const {
   updateNote,
   toggleTrashedNote,
   deleteNote,
-  toggleFavoriteNote
+  toggleFavoriteNote,
+  deleteCategory,
+  updateCategory
 } = appStateSlice.actions;
 
 export default appStateSlice.reducer;
