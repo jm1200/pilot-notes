@@ -46,3 +46,8 @@ export interface AppState {
 export interface RootState {
   appState: AppState;
 }
+
+export type ReactMouseEvent =
+  | MouseEvent
+  | React.MouseEvent<HTMLDivElement>
+  | React.ChangeEvent<HTMLSelectElement>;

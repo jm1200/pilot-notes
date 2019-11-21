@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppState, Folder, CategoryItem, NoteItem } from "types";
 import { initialAppState } from "constants/initialStates";
-import { newNote } from "helpers";
 
 const appStateSlice = createSlice({
   name: "appState",
@@ -26,9 +25,9 @@ const appStateSlice = createSlice({
       state.notes.push(newNote);
     },
     updateNote(state: AppState, action: PayloadAction<NoteItem>) {
-      const newNote = action.payload;
+      const updatedNote = action.payload;
       state.notes = state.notes.map(note =>
-        note.id === newNote.id ? newNote : note
+        note.id === updatedNote.id ? updatedNote : note
       );
     },
     pruneNotes(state: AppState) {

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { uuid } from "uuidv4";
 import {
   Sun,
   Moon,
@@ -104,7 +103,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
     event.preventDefault();
 
     const category = {
-      id: uuid(),
+      id: tempCategoryName,
       name: tempCategoryName.trim(),
       draggedOver: false
     };

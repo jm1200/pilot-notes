@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "types";
 import { Menu, Star, MoreHorizontal } from "react-feather";
-import { NoteItem } from "types";
+import { NoteItem, ReactMouseEvent } from "types";
 import { sortByFavourites, sortByLastUpdated, getNoteTitle } from "helpers";
 import {
   toggleMainNav,
@@ -20,8 +20,8 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     activeNoteId,
     activeFolder,
     notes,
-    noteOpen,
-    categories
+    noteOpen
+    //categories
   } = useSelector((state: RootState) => state.appState);
 
   const [searchValue, setSearchValue] = useState("");
@@ -44,9 +44,9 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     .sort(sortByLastUpdated)
     .sort(sortByFavourites);
 
-  const filteredCategories = categories.filter(
-    ({ id }) => id !== activeCategoryId
-  );
+  // const filteredCategories = categories.filter(
+  //   ({ id }) => id !== activeCategoryId
+  // );
 
   const dispatch = useDispatch();
 
@@ -69,9 +69,48 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     _pruneNotes();
   };
 
-  const handleNoteOptionsClick = (event: React.MouseEvent, noteId: string) => {
-    console.log("todo: handle note options click", noteId);
+  const [noteOptionsId, setNoteOptionsId] = useState("");
+  const [noteOptionsPosition, setNoteOptionsPosition] = useState({
+    x: 0,
+    y: 0
+  });
+  // const node = useRef<HTMLDivElement>(null);
+
+  const handleNoteOptionsClick = (
+    event: ReactMouseEvent,
+    noteId: string = ""
+  ) => {
+    event.stopPropagation();
+    console.log(noteId);
+    if (noteId !== noteOptionsId) {
+      setNoteOptionsId(noteId);
+    }
   };
+
+  const handleClose = (event: ReactMouseEvent): void => {
+    console.log("close", event);
+    console.log("close, ", event instanceof MouseEvent);
+  };
+
+  // const getOptionsYPoisition = (): Number => {
+  //   // get the max window frame
+  //   const MaxY = window.innerHeight;
+
+  //   // determine approximate options height based on root font-size of 15px, padding, and select box.
+  //   const optionsSize = 15 * 11;
+
+  //   // if window position - noteOptions position isn't ibgger than options. flip it.
+  //   return MaxY - noteOptionsPosition.y > optionsSize
+  //     ? noteOptionsPosition.y
+  //     : noteOptionsPosition.y - optionsSize;
+  // };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClose);
+    return () => {
+      document.removeEventListener("mousedown", handleClose);
+    };
+  });
 
   return (
     <div className={`note-sidebar ${noteOpen ? "note-open" : ""}`}>
@@ -125,6 +164,7 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
               >
                 <MoreHorizontal size={15} />
               </div>
+              {}
             </div>
           );
         })}
