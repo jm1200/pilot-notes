@@ -3,7 +3,7 @@ $dark-editor: #3f3f3f;
 
 .dark {
   .main-nav {
-    color: $light-font-color;
+    border-right: 1px solid darken($dark-sidebar, 8%);
   }
 
   .note-sidebar {
@@ -19,6 +19,19 @@ $dark-editor: #3f3f3f;
         border: 1px solid darken($dark-sidebar, 8%);
       }
     }
+
+    .list-button {
+      color: $light-font-color;
+      background: darken($dark-sidebar, 8%);
+      border: 1px solid darken($dark-sidebar, 1%);
+
+      &:hover,
+      &:focus {
+        color: white;
+        background: darken($variable, 10%);
+      }
+    }
+
     .note-list {
       .note-list-each {
         border-bottom: 1px solid darken($dark-sidebar, 8%);
@@ -36,6 +49,7 @@ $dark-editor: #3f3f3f;
         }
       }
     }
+
     .note-options-context-menu {
       border: 1px solid darken($dark-sidebar, 8%);
       background: $app-sidebar-color;
@@ -58,21 +72,11 @@ $dark-editor: #3f3f3f;
     }
   }
 
-  .editor {
-    background: #222 !important;
-  }
-
-  .alternates-tool-container {
-    .alternates-tool {
-      background: $dark-sidebar;
-      color: $light-font-color;
-    }
-  }
-
   .empty-editor {
     background: $dark-editor;
     color: $light-font-color;
   }
+
   .editor .CodeMirror-activeline-background {
     background: #222 !important;
   }
@@ -125,5 +129,37 @@ $dark-editor: #3f3f3f;
     &:hover {
       background: darken($app-sidebar-color, 5%);
     }
+  }
+
+  .settings-modal {
+    background: $dark-sidebar;
+    color: $light-font-color;
+
+    .action-button {
+      background: darken($dark-sidebar, 3%);
+
+      &:hover,
+      &:active {
+        background: darken($dark-sidebar, 5%);
+      }
+    }
+  }
+
+  kbd {
+    background: darken($dark-sidebar, 5%);
+    border: 1px solid darken($dark-sidebar, 10%);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 0 2px #222 inset;
+    color: darken($light-font-color, 10%);
+    text-shadow: 0 1px 0 #000;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    background: darken($app-sidebar-color, 10%);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: lighten($app-sidebar-color, 15%);
+    border-radius: 100px;
   }
 }
