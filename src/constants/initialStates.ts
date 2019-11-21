@@ -6,7 +6,7 @@ export const initialAppState: AppState = {
   alternatesTool: false,
   notes: seedData.notes,
   navOpen: false,
-  noteOpen: true,
+  noteOpen: false,
   categories: seedData.categories,
   activeNoteId: "e0196fd9-d644-4ca8-aa58-467b8082993e",
   activeFolder: "all",

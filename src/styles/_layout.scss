@@ -64,3 +64,8 @@
     }
   }
 }
+.empty-editor {
+  @include small-breakpoint {
+    display: flex !important;
+  }
+}

@@ -64,14 +64,15 @@
           background: $primary;
           color: white;
           border-bottom: 1px solid $primary;
-        }
-        &:hover {
-          .note-options {
-            color: white;
+
+          &:hover {
+            .note-options {
+              color: white;
+            }
           }
-        }
-        .note-favorite {
-          stroke: white;
+          .note-favorite {
+            stroke: white;
+          }
         }
       }
       .note-options {
@@ -88,6 +89,51 @@
 
         &.active {
           color: $font-color;
+        }
+
+        &-context-menu {
+          cursor: default;
+          border-radius: 4px;
+          position: absolute;
+          padding: 0.5rem;
+          color: $font-color;
+          top: 32px;
+          left: 200px;
+          min-width: 250px;
+          background: white;
+          border: 1px solid $accent-gray;
+          z-index: 3;
+          box-shadow: $box-shadow;
+
+          .select {
+            -webkit-appearance: none;
+            font-size: 1rem;
+            padding: 0.5rem;
+            width: calc(100% - 1rem);
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0.25rem;
+            margin-bottom: 0.5rem;
+          }
+        }
+        &-nav {
+          font-size: 0.9rem;
+
+          .nav-item {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 2px;
+
+            &:hover {
+              background: #f0f0f0;
+            }
+          }
+
+          svg {
+            margin-right: 0.5rem;
+          }
         }
       }
     }

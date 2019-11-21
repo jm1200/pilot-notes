@@ -3,7 +3,7 @@ import { uuid } from "uuidv4";
 import { Folder } from "types";
 import moment from "moment";
 
-export const sortByFavourites = (a: NoteItem, b: NoteItem) => {
+export const sortByFavorites = (a: NoteItem, b: NoteItem) => {
   if (a.favorite && !b.favorite) return -1;
   if (!a.favorite && b.favorite) return 1;
   return 0;
@@ -31,5 +31,5 @@ export const newNote = (categoryId?: string, folder?: Folder): NoteItem => ({
   created: moment().format(),
   lastUpdated: moment().format(),
   category: categoryId,
-  favorite: folder === "favourites"
+  favorite: folder === "favorites"
 });

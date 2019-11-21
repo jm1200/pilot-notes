@@ -82,7 +82,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
     if ((activeNote && activeNote.text !== "") || !activeNote) {
       const note = newNote(
         activeCategoryId,
-        activeFolder === "favourites" ? "favourites" : "all"
+        activeFolder === "favorites" ? "favorites" : "all"
       );
       _addNote(note);
       _swapNote(note.id);
@@ -164,12 +164,12 @@ const MainNav: React.FC<IMainNavProps> = props => {
         </div>
         <div
           className={`main-nav-link ${
-            activeFolder === "favourites" ? "active" : ""
+            activeFolder === "favorites" ? "active" : ""
           }`}
-          onClick={() => handleSwapFolder("favourites")}
+          onClick={() => handleSwapFolder("favorites")}
         >
           <Star size={15} className="main-nav-icon" />
-          Favourites
+          Favorites
         </div>
         {/* <div
           className={`main-nav-link ${
@@ -207,7 +207,9 @@ const MainNav: React.FC<IMainNavProps> = props => {
             return (
               <div
                 key={category.id}
-                className="category-list-each"
+                className={`category-list-each ${
+                  category.id === activeCategoryId ? "active" : ""
+                }`}
                 onClick={() => handleSwapCategory(category.id)}
               >
                 <form className="category-list-name">
