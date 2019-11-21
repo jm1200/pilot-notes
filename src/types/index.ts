@@ -26,7 +26,7 @@ export interface CategoryItem {
   id: string;
 }
 
-export type Folder = "all" | "trash" | "favourites";
+export type Folder = "all" | "trash" | "favorites" | "category";
 
 export interface AppState {
   darkTheme: boolean;
