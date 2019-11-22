@@ -71,6 +71,12 @@ $dark-editor: #3f3f3f;
       }
     }
   }
+  .note-editor,
+  .previewer {
+    footer {
+      background: darken($app-sidebar-color, 10%);
+    }
+  }
 
   .empty-editor {
     background: $dark-editor;

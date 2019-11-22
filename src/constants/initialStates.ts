@@ -12,7 +12,7 @@ export const initialAppState: AppState = {
   activeFolder: "all",
   activeCategoryId: "",
   loading: false,
-  previewMarkdown: false,
+  previewMarkdown: true,
   codeMirrorOptions: {
     mode: "gfm",
     theme: "base16-light",
