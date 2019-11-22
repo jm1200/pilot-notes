@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, CategoryItem, Folder } from "types";
+import { RootState, Folder } from "types";
 import { Menu, Star, MoreHorizontal } from "react-feather";
 import { NoteItem, ReactMouseEvent } from "types";
 import { sortByFavorites, sortByLastUpdated, getNoteTitle } from "helpers";
