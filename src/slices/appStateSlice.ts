@@ -84,9 +84,6 @@ const appStateSlice = createSlice({
       state.activeFolder = folder;
       state.activeCategoryId = "";
     },
-    toggleDarkTheme(state: AppState) {
-      state.darkTheme = !state.darkTheme;
-    },
     toggleAlternatesTool(state: AppState) {
       state.alternatesTool = !state.alternatesTool;
     },
@@ -96,9 +93,7 @@ const appStateSlice = createSlice({
     toggleNoteOpen(state: AppState) {
       state.noteOpen = !state.noteOpen;
     },
-    togglePreviewMarkdown(state: AppState) {
-      state.previewMarkdown = !state.previewMarkdown;
-    },
+
     toggleTrashedNote(state: AppState, action: PayloadAction<string>) {
       console.log("move note to trash");
       const noteId = action.payload;
@@ -127,10 +122,7 @@ const appStateSlice = createSlice({
         state.activeCategoryId
       );
     },
-    updateCodeMirrorOptions(state: AppState, action: PayloadAction) {
-      const theme = state.darkTheme ? "new-moon" : "base16-light";
-      state.codeMirrorOptions.theme = theme;
-    },
+
     swapCategory(state, action: PayloadAction<string>) {
       const categoryId = action.payload;
       state.activeCategoryId = categoryId;
@@ -163,12 +155,9 @@ export const {
   swapNote,
   swapCategory,
   swapFolder,
-  toggleDarkTheme,
-  updateCodeMirrorOptions,
   toggleAlternatesTool,
   toggleMainNav,
   toggleNoteOpen,
-  togglePreviewMarkdown,
   updateNote,
   toggleTrashedNote,
   deleteNote,

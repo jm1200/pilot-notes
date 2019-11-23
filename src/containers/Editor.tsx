@@ -10,23 +10,18 @@ import { RootState, NoteItem } from "types";
 import ReactMarkdown from "react-markdown";
 import moment from "moment";
 import { ArrowLeft } from "react-feather";
-import {
-  togglePreviewMarkdown,
-  toggleNoteOpen,
-  updateNote
-} from "slices/appStateSlice";
+import { toggleNoteOpen, updateNote } from "slices/appStateSlice";
+import { togglePreviewMarkdown } from "slices/settingsStateSlice";
 
 interface IEditorProps {}
 
 const Editor: React.FC<IEditorProps> = props => {
-  const {
-    activeNoteId,
-    notes,
-    codeMirrorOptions,
-    loading,
-    previewMarkdown,
-    noteOpen
-  } = useSelector((state: RootState) => state.appState);
+  const { activeNoteId, notes, loading, noteOpen } = useSelector(
+    (state: RootState) => state.appState
+  );
+  const { codeMirrorOptions, previewMarkdown } = useSelector(
+    (state: RootState) => state.settingsState
+  );
   const activeNote = notes.find(note => note.id === activeNoteId);
 
   const dispatch = useDispatch();

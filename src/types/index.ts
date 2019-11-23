@@ -1,3 +1,6 @@
+import { ThunkAction } from "redux-thunk";
+import { Action } from "@reduxjs/toolkit";
+
 export interface AltObject {
   icao: string;
   iata: string;
@@ -29,8 +32,8 @@ export interface CategoryItem {
 export type Folder = "all" | "trash" | "favorites" | "category";
 
 export interface AppState {
-  darkTheme: boolean;
-  codeMirrorOptions: { [key: string]: any };
+  // darkTheme: boolean;
+  // codeMirrorOptions: { [key: string]: any };
   alternatesTool: boolean;
   notes: NoteItem[];
   categories: CategoryItem[];
@@ -40,13 +43,21 @@ export interface AppState {
   navOpen: boolean;
   noteOpen: boolean;
   loading: boolean;
-  previewMarkdown: boolean;
+  // previewMarkdown: boolean;
 }
 
 export interface RootState {
   appState: AppState;
+  settingsState: SettingsState;
 }
 
+export interface SettingsState {
+  previewMarkdown: boolean;
+  loading: boolean;
+  darkTheme: boolean;
+  codeMirrorOptions: { [key: string]: any };
+  error?: string;
+}
 //==============================================================================
 // Events
 //==============================================================================
@@ -61,3 +72,5 @@ export type ReactMouseEvent =
 export type ReactSubmitEvent =
   | React.FormEvent<HTMLFormElement>
   | React.FocusEvent<HTMLInputElement>;
+
+export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;

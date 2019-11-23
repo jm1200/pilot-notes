@@ -11,11 +11,11 @@ import {
   X,
   Book
 } from "react-feather";
+
 import MainNavActionButton from "components/MainNavActionButton";
 import { useSelector, useDispatch } from "react-redux";
+
 import {
-  toggleDarkTheme,
-  updateCodeMirrorOptions,
   toggleAlternatesTool,
   swapCategory,
   swapFolder,
@@ -25,6 +25,12 @@ import {
   deleteCategory,
   updateCategory
 } from "slices/appStateSlice";
+
+import {
+  toggleDarkTheme,
+  updateCodeMirrorOptions
+} from "slices/settingsStateSlice";
+
 import {
   RootState,
   CategoryItem,
@@ -32,6 +38,7 @@ import {
   NoteItem,
   ReactSubmitEvent
 } from "types";
+
 import { newNote } from "helpers";
 
 interface IMainNavProps {}
@@ -40,7 +47,6 @@ const MainNav: React.FC<IMainNavProps> = props => {
   const dispatch = useDispatch();
   //console.log(dispatch({ type: "test" }));
   const {
-    darkTheme,
     navOpen,
     activeFolder,
     categories,
@@ -48,6 +54,8 @@ const MainNav: React.FC<IMainNavProps> = props => {
     activeCategoryId,
     notes
   } = useSelector((state: RootState) => state.appState);
+
+  const { darkTheme } = useSelector((state: RootState) => state.settingsState);
 
   const activeNote = notes.find(note => note.id === activeNoteId);
 
@@ -58,10 +66,9 @@ const MainNav: React.FC<IMainNavProps> = props => {
   const _addCategory = (category: CategoryItem) =>
     dispatch(addCategory(category));
 
-  const _toggleDarkTheme = () => {
-    dispatch(toggleDarkTheme());
-    dispatch(updateCodeMirrorOptions());
-  };
+  const _toggleDarkTheme = () => dispatch(toggleDarkTheme());
+  const _updateCodeMirrorOption = (key: string, value: any) =>
+    dispatch(updateCodeMirrorOptions({ key, value }));
 
   const _swapFolder = (folder: Folder) => dispatch(swapFolder(folder));
 
@@ -111,6 +118,10 @@ const MainNav: React.FC<IMainNavProps> = props => {
 
   const newTempCategoryHandler = () => {
     setAddingTempCategory(!addingTempCategory);
+  };
+  const toggleDarkThemeHandler = () => {
+    _toggleDarkTheme();
+    _updateCodeMirrorOption("theme", darkTheme ? "base16-light" : "new-moon");
   };
 
   const onSubmitNewCategory = (event: ReactSubmitEvent) => {
@@ -175,13 +186,13 @@ const MainNav: React.FC<IMainNavProps> = props => {
         />
         {darkTheme ? (
           <MainNavActionButton
-            handler={_toggleDarkTheme}
+            handler={toggleDarkThemeHandler}
             icon={Sun}
             label={"choose theme"}
           />
         ) : (
           <MainNavActionButton
-            handler={_toggleDarkTheme}
+            handler={toggleDarkThemeHandler}
             icon={Moon}
             label={"choose theme"}
           />
