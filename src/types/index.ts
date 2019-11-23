@@ -72,5 +72,3 @@ export type ReactMouseEvent =
 export type ReactSubmitEvent =
   | React.FormEvent<HTMLFormElement>
   | React.FocusEvent<HTMLInputElement>;
-
-export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;

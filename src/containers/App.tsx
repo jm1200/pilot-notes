@@ -5,7 +5,7 @@ import SecondaryNav from "./SecondaryNav";
 import Editor from "./Editor";
 import AlternatesTool from "./AlternatesTool";
 import { RootState } from "types";
-import { _loadSettings, fetchSettings } from "slices/settingsStateSlice";
+import { _loadSettings } from "slices/settingsStateSlice";
 
 const App: React.FC = () => {
   const { darkTheme } = useSelector((state: RootState) => state.settingsState);
@@ -13,11 +13,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(_loadSettings());
-  }, []);
-
-  // useEffect(() => {
-  //   dispatch(fetchSettings());
-  // }, []);
+  }, [dispatch]);
 
   return (
     <div className={`app ${darkTheme ? "dark" : ""}`}>
