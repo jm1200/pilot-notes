@@ -1,6 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SettingsState } from "types";
-import { initialSettingsState } from "constants/initialStates";
+
+export const initialSettingsState: SettingsState = {
+  previewMarkdown: true,
+  darkTheme: true,
+  loading: false,
+  error: "",
+  codeMirrorOptions: {
+    mode: "gfm",
+    theme: "new-moon",
+    lineNumbers: false,
+    lineWrapping: true,
+    styleActiveLine: { nonEmpty: true },
+    viewportMargin: Infinity,
+    keyMap: "default",
+    dragDrop: false
+  }
+};
 
 const settingsStateSlice = createSlice({
   name: "settingsState",
@@ -14,11 +30,15 @@ const settingsStateSlice = createSlice({
       action: PayloadAction<SettingsState>
     ) => ({
       ...action.payload,
-      loading: false
+      loading: false,
+      error: ""
     }),
-    _loadSettingsError(state: SettingsState, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
+    loadSettingsError: (
+      state: SettingsState,
+      action: PayloadAction<string>
+    ) => {
+      console.log("Error: ", action.payload);
+      return { ...state, loading: false, error: action.payload };
     },
     updateCodeMirrorOptions: (
       state,
@@ -49,7 +69,7 @@ const settingsStateSlice = createSlice({
 
 export const {
   _loadSettings,
-  _loadSettingsError,
+  loadSettingsError,
   _loadSettingsSuccess,
   togglePreviewMarkdown,
   toggleDarkTheme,

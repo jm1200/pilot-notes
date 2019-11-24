@@ -4,29 +4,26 @@ import { RootState, Folder } from "types";
 import { Menu, Star, MoreHorizontal } from "react-feather";
 import { NoteItem, ReactMouseEvent } from "types";
 import { sortByFavorites, sortByLastUpdated, getNoteTitle } from "helpers";
+import { toggleMainNav, toggleNoteOpen } from "slices/appStateSlice";
 import {
-  toggleMainNav,
-  toggleNoteOpen,
-  swapNote,
-  swapFolder,
   pruneNotes,
   swapCategory,
-  addCategoryToNote
-} from "slices/appStateSlice";
+  addCategoryToNote,
+  swapNote,
+  swapFolder
+} from "slices/noteStateSlice";
 import _ from "lodash";
 import NoteOptions from "./NoteOptions";
 
 interface ISecondaryNavProps {}
 
 const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
-  const {
-    activeCategoryId,
-    activeNoteId,
-    activeFolder,
-    notes,
-    noteOpen,
-    categories
-  } = useSelector((state: RootState) => state.appState);
+  const { noteOpen, categories } = useSelector(
+    (state: RootState) => state.appState
+  );
+  const { notes, activeCategoryId, activeNoteId, activeFolder } = useSelector(
+    (state: RootState) => state.noteState
+  );
 
   const [searchValue, setSearchValue] = useState("");
 

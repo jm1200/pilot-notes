@@ -7,7 +7,7 @@ import {
   toggleTrashedNote,
   deleteNote,
   toggleFavoriteNote
-} from "slices/appStateSlice";
+} from "slices/noteStateSlice";
 
 // interface StyleProp {
 //   position: "absolute";

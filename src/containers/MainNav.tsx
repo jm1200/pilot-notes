@@ -9,27 +9,32 @@ import {
   ArrowRightCircle,
   Folder as FolderIcon,
   X,
-  Book
+  Book,
+  Check
 } from "react-feather";
 
 import MainNavActionButton from "components/MainNavActionButton";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  toggleAlternatesTool,
-  swapCategory,
-  swapFolder,
-  addCategory,
-  addNote,
-  swapNote,
-  deleteCategory,
-  updateCategory
-} from "slices/appStateSlice";
+import { toggleAlternatesTool } from "slices/appStateSlice";
 
 import {
   toggleDarkTheme,
   updateCodeMirrorOptions
 } from "slices/settingsStateSlice";
+
+import {
+  swapCategory,
+  addNote,
+  swapFolder,
+  swapNote
+} from "slices/noteStateSlice";
+
+import {
+  addCategory,
+  deleteCategory,
+  updateCategory
+} from "slices/categoryStateSlice";
 
 import {
   RootState,
@@ -40,20 +45,22 @@ import {
 } from "types";
 
 import { newNote } from "helpers";
+import moment from "moment";
 
 interface IMainNavProps {}
 
 const MainNav: React.FC<IMainNavProps> = props => {
   const dispatch = useDispatch();
   //console.log(dispatch({ type: "test" }));
-  const {
-    navOpen,
-    activeFolder,
-    categories,
-    activeNoteId,
-    activeCategoryId,
-    notes
-  } = useSelector((state: RootState) => state.appState);
+  const { navOpen, lastSynced } = useSelector(
+    (state: RootState) => state.appState
+  );
+
+  const { categories } = useSelector((state: RootState) => state.categoryState);
+
+  const { notes, activeNoteId, activeCategoryId, activeFolder } = useSelector(
+    (state: RootState) => state.noteState
+  );
 
   const { darkTheme } = useSelector((state: RootState) => state.settingsState);
 
@@ -62,6 +69,8 @@ const MainNav: React.FC<IMainNavProps> = props => {
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
   const [tempCategoryName, setTempCategoryName] = useState("");
+  console.log("editId: ", editingCategoryId);
+  console.log("tempName ", tempCategoryName);
 
   const _addCategory = (category: CategoryItem) =>
     dispatch(addCategory(category));
@@ -241,6 +250,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
           </div>
 
           {categories.map(category => {
+            console.log("category map: ", category.id);
             return (
               <div
                 key={category.id}
@@ -249,6 +259,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
                 }`}
                 onClick={() => handleSwapCategory(category.id)}
                 onDoubleClick={() => {
+                  console.log("double click:", category.id);
                   setEditingCategoryId(category.id);
                   setTempCategoryName(category.id);
                 }}
@@ -335,7 +346,14 @@ const MainNav: React.FC<IMainNavProps> = props => {
           </form>
         )}
       </section>
-      <section className="main-nav-synced">Sync</section>
+      {lastSynced && (
+        <section className="app-sidebar-synced">
+          <div className="last-synced">
+            <Check size={14} className="app-sidebar-icon" />{" "}
+            {moment(lastSynced).format("h:mm A on M/D/Y")}
+          </div>
+        </section>
+      )}
     </aside>
   );
 };

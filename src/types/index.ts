@@ -1,5 +1,4 @@
-import { ThunkAction } from "redux-thunk";
-import { Action } from "@reduxjs/toolkit";
+import { syncState } from "slices/appStateSlice";
 
 export interface AltObject {
   icao: string;
@@ -32,23 +31,14 @@ export interface CategoryItem {
 export type Folder = "all" | "trash" | "favorites" | "category";
 
 export interface AppState {
-  // darkTheme: boolean;
-  // codeMirrorOptions: { [key: string]: any };
   alternatesTool: boolean;
-  notes: NoteItem[];
   categories: CategoryItem[];
-  activeNoteId: string;
-  activeFolder: string;
-  activeCategoryId: string;
   navOpen: boolean;
   noteOpen: boolean;
   loading: boolean;
-  // previewMarkdown: boolean;
-}
-
-export interface RootState {
-  appState: AppState;
-  settingsState: SettingsState;
+  syncing: boolean;
+  lastSynced: string;
+  syncError: string;
 }
 
 export interface SettingsState {
@@ -58,6 +48,54 @@ export interface SettingsState {
   codeMirrorOptions: { [key: string]: any };
   error?: string;
 }
+
+export interface SyncState {
+  syncing: boolean;
+  lastSynced: string;
+  error: string;
+}
+
+//==============================================================================
+// Api
+//==============================================================================
+
+export interface SyncStatePayload {
+  categories: CategoryItem[];
+  notes: NoteItem[];
+}
+
+export interface SyncStateAction {
+  type: typeof syncState.type;
+  payload: SyncStatePayload;
+}
+
+//==============================================================================
+// State
+//==============================================================================
+
+export interface CategoryState {
+  categories: CategoryItem[];
+  error: string;
+  loading: boolean;
+}
+
+export interface NoteState {
+  notes: NoteItem[];
+  activeFolder: Folder;
+  activeNoteId: string;
+  activeCategoryId: string;
+  error: string;
+  loading: boolean;
+  searchValue: string;
+}
+
+export interface RootState {
+  appState: AppState;
+  settingsState: SettingsState;
+  noteState: NoteState;
+  categoryState: CategoryState;
+}
+
 //==============================================================================
 // Events
 //==============================================================================

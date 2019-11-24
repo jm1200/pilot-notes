@@ -1,7 +1,7 @@
 const categories = [
   {
     id: "B787",
-    name: "goals"
+    name: "B787"
   },
   {
     id: "FOM",
