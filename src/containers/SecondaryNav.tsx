@@ -10,10 +10,12 @@ import {
   swapCategory,
   addCategoryToNote,
   swapNote,
-  swapFolder
+  swapFolder,
+  emptyTrash
 } from "slices/noteStateSlice";
 import _ from "lodash";
 import NoteOptions from "./NoteOptions";
+import NoteListButton from "components/NoteListButton";
 
 interface ISecondaryNavProps {}
 
@@ -25,8 +27,6 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
   const { categories } = useSelector((state: RootState) => state.categoryState);
 
   const [searchValue, setSearchValue] = useState("");
-
-  const showEmptyTrash = activeFolder === "trash";
 
   const re = new RegExp(_.escapeRegExp(searchValue), "i");
   const isMatch = (result: NoteItem) => re.test(result.text);
@@ -49,6 +49,7 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
   );
 
   const dispatch = useDispatch();
+  const showEmptyTrash = activeFolder === "trash" && filteredNotes.length > 0;
 
   const _setNavOpen = () => dispatch(toggleMainNav());
   const _setNoteOpen = () => dispatch(toggleNoteOpen());
@@ -59,7 +60,7 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
     dispatch(addCategoryToNote({ noteId, categoryId }));
   const _swapCategory = (categoryId: string) =>
     dispatch(swapCategory(categoryId));
-
+  const _emptyTrash = () => dispatch(emptyTrash());
   const handleSearchNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
@@ -138,7 +139,11 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
             placeholder="Search for notes"
           />
         </div>
-        {showEmptyTrash && <button>EmptyTrash</button>}
+        {showEmptyTrash && (
+          <NoteListButton label="Empty Trash" handler={() => _emptyTrash()}>
+            Empty Trash
+          </NoteListButton>
+        )}
       </div>
       <div className="note-list">
         {filteredNotes.map(note => {

@@ -59,9 +59,9 @@ const noteStateSlice = createSlice({
     },
     loadNotesSuccess(state: NoteState, action: PayloadAction<NoteItem[]>) {
       const notes = action.payload;
-      console.log(notes);
       state.notes = notes;
       state.loading = false;
+      state.activeNoteId = getFirstNoteId("all", notes);
     },
     loadNotesError(state: NoteState, action: PayloadAction<string>) {
       state.error = action.payload;
@@ -77,7 +77,10 @@ const noteStateSlice = createSlice({
         note.id === noteId ? { ...note, category: categoryId } : note
       );
     },
-
+    emptyTrash: state => ({
+      ...state,
+      notes: state.notes.filter(note => !note.trash)
+    }),
     addNote(state: NoteState, action: PayloadAction<NoteItem>) {
       const newNote = action.payload;
       state.notes.push(newNote);
@@ -153,7 +156,8 @@ export const {
   updateNote,
   pruneNotes,
   swapFolder,
-  swapNote
+  swapNote,
+  emptyTrash
 } = noteStateSlice.actions;
 
 export default noteStateSlice.reducer;
