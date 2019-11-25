@@ -67,46 +67,48 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
     >
       <div className="alternates-tool">
         <h1 className="title">Alternates Helper Tool</h1>
+        <div className="alternate-tool-options">
+          <form
+            className="alternates-tool-form"
+            onSubmit={event => event.preventDefault()}
+            autoComplete="off"
+          >
+            <div className="select-container">
+              <label htmlFor="alternates-tool-select">Aircraft Type: </label>
+              <select
+                name="alternates-tool-select"
+                className="alternates-tool-select"
+                onChange={handleSelectChange}
+                value={altToolSelect}
+              >
+                <option value="b777">B777</option>
+                <option value="b787">B787</option>
+                <option value="b767">B767</option>
+                <option value="b737">B737</option>
+                <option value="a220">A220</option>
+                <option value="a3xx">A3XX</option>
+                <option value="a330">A330</option>
+                <option value="e190">E190</option>
+              </select>
+            </div>
 
-        <form
-          className="alternates-tool-form"
-          onSubmit={event => event.preventDefault()}
-          autoComplete="off"
-        >
-          <div className="select-container">
-            <label htmlFor="alternates-tool-select">Aircraft Type: </label>
-            <select
-              name="alternates-tool-select"
-              className="alternates-tool-select"
-              onChange={handleSelectChange}
-              value={altToolSelect}
-            >
-              <option value="b777">B777</option>
-              <option value="b787">B787</option>
-              <option value="b767">B767</option>
-              <option value="b737">B737</option>
-              <option value="a220">A220</option>
-              <option value="a3xx">A3XX</option>
-              <option value="a330">A330</option>
-              <option value="e190">E190</option>
-            </select>
+            <div className="alternates-tool-input-container">
+              <label htmlFor="altToolInput">Search Alternates: </label>
+              <input
+                className="alternates-tool-input"
+                name="altToolInput"
+                value={altToolInput}
+                onChange={handleInputChange}
+              />
+            </div>
+          </form>
+          <div className="legend">
+            <p>D - Destination</p>
+            <p>A - Alternate</p>
+            <p>EC - Escape Chart Airport</p>
           </div>
-
-          <div className="alternates-tool-input-container">
-            <label htmlFor="altToolInput">Search Alternates: </label>
-            <input
-              className="alternates-tool-input"
-              name="altToolInput"
-              value={altToolInput}
-              onChange={handleInputChange}
-            />
-          </div>
-        </form>
-        <div className="legend">
-          <p>D - Destination</p>
-          <p>A - Alternate</p>
-          <p>EC - Escape Chart Airport</p>
         </div>
+
         <table className="alternates-tool-table">
           <thead>
             <tr>
