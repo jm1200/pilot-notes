@@ -1,6 +1,6 @@
 .alternates-tool-container {
   position: absolute;
-  width: $note-sidebar-width + $app-sidebar-width;
+  width: 100%vw;
   top: 100px;
   left: -$note-sidebar-width - $app-sidebar-width;
   background: transparent;
@@ -8,6 +8,10 @@
   transform: translate3D(-500px, 0, 0);
   transition: all 1s ease;
   padding: 10px;
+
+  @include small-breakpoint {
+    width: $note-sidebar-width + $app-sidebar-width;
+  }
 
   &.open {
     left: 0px;

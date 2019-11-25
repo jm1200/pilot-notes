@@ -250,7 +250,7 @@ const MainNav: React.FC<IMainNavProps> = props => {
           </div>
 
           {categories.map(category => {
-            console.log("category map: ", category.id);
+            //console.log("category map: ", category.id);
             return (
               <div
                 key={category.id}
@@ -347,9 +347,9 @@ const MainNav: React.FC<IMainNavProps> = props => {
         )}
       </section>
       {lastSynced && (
-        <section className="app-sidebar-synced">
+        <section className="main-nav-synced">
           <div className="last-synced">
-            <Check size={14} className="app-sidebar-icon" />{" "}
+            <Check size={14} className="main-nav-icon" />{" "}
             {moment(lastSynced).format("h:mm A on M/D/Y")}
           </div>
         </section>

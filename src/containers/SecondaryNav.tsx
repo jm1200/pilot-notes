@@ -18,12 +18,11 @@ import NoteOptions from "./NoteOptions";
 interface ISecondaryNavProps {}
 
 const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
-  const { noteOpen, categories } = useSelector(
-    (state: RootState) => state.appState
-  );
+  const { noteOpen } = useSelector((state: RootState) => state.appState);
   const { notes, activeCategoryId, activeNoteId, activeFolder } = useSelector(
     (state: RootState) => state.noteState
   );
+  const { categories } = useSelector((state: RootState) => state.categoryState);
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -212,6 +211,9 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
                       >
                         <option disabled value="">
                           Move to category...
+                        </option>
+                        <option key={"routes"} value={"routes"}>
+                          Routes
                         </option>
                         {filteredCategories
                           .filter(category => category.id !== note.category)

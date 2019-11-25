@@ -51,9 +51,9 @@ const Editor: React.FC<IEditorProps> = props => {
             <p>
               <strong>Create a note</strong>
             </p>
-            <p>
+            {/* <p>
               <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>N</kbd>
-            </p>
+            </p> */}
           </div>
         </div>
       );

@@ -9,13 +9,7 @@ import {
   toggleFavoriteNote
 } from "slices/noteStateSlice";
 
-// interface StyleProp {
-//   position: "absolute";
-//   top: string;
-//   left: string;
-// }
 interface INoteOptionsProps {
-  //   style: StyleProp;
   clickedNote: NoteItem;
 }
 
