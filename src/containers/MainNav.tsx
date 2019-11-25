@@ -69,8 +69,6 @@ const MainNav: React.FC<IMainNavProps> = props => {
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
   const [tempCategoryName, setTempCategoryName] = useState("");
-  console.log("editId: ", editingCategoryId);
-  console.log("tempName ", tempCategoryName);
 
   const _addCategory = (category: CategoryItem) =>
     dispatch(addCategory(category));
