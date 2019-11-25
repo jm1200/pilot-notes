@@ -184,11 +184,15 @@
     z-index: 2;
     box-shadow: $box-shadow;
 
-    &:hover,
-    &:focus {
+    &:hover {
       border: none;
       color: darken($font-color, 10%);
       background-color: darken($note-sidebar-color, 5%);
     }
+    // &:focus {
+    //   border: none;
+    //   color: darken($font-color, 10%);
+    //   background-color: darken($note-sidebar-color, 5%);
+    // }
   }
 }

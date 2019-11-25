@@ -240,7 +240,9 @@ const MainNav: React.FC<IMainNavProps> = props => {
         </div>
         <div className="category-list">
           <div
-            className="category-list-each"
+            className={`category-list-each ${
+              activeCategoryId === "routes" ? "active" : ""
+            }`}
             onClick={() => handleSwapCategory("routes")}
           >
             <div className="category-list-name">
