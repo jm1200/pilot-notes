@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import moment from "moment";
 import {
   Sun,
   Moon,
@@ -14,7 +16,6 @@ import {
 } from "react-feather";
 
 import MainNavActionButton from "components/MainNavActionButton";
-import { useSelector, useDispatch } from "react-redux";
 
 import { toggleAlternatesTool } from "slices/appStateSlice";
 
@@ -36,40 +37,38 @@ import {
   updateCategory
 } from "slices/categoryStateSlice";
 
-import {
-  RootState,
-  CategoryItem,
-  Folder,
-  NoteItem,
-  ReactSubmitEvent
-} from "types";
+import { CategoryItem, Folder, NoteItem, ReactSubmitEvent } from "types";
 
 import { newNote } from "helpers";
-import moment from "moment";
 
-interface IMainNavProps {}
+interface IMainNavProps {
+  notes: NoteItem[];
+  categories: CategoryItem[];
+  darkTheme: boolean;
+  activeNoteId: string;
+  activeCategoryId: string;
+  activeFolder: Folder;
+  navOpen: boolean;
+  lastSynced: string;
+}
 
-const MainNav: React.FC<IMainNavProps> = props => {
-  const dispatch = useDispatch();
-  //console.log(dispatch({ type: "test" }));
-  const { navOpen, lastSynced } = useSelector(
-    (state: RootState) => state.appState
-  );
-
-  const { categories } = useSelector((state: RootState) => state.categoryState);
-
-  const { notes, activeNoteId, activeCategoryId, activeFolder } = useSelector(
-    (state: RootState) => state.noteState
-  );
-
-  const { darkTheme } = useSelector((state: RootState) => state.settingsState);
-
-  const activeNote = notes.find(note => note.id === activeNoteId);
-
+const MainNav: React.FC<IMainNavProps> = ({
+  notes,
+  categories,
+  darkTheme,
+  activeNoteId,
+  activeCategoryId,
+  activeFolder,
+  navOpen,
+  lastSynced
+}) => {
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
   const [tempCategoryName, setTempCategoryName] = useState("");
 
+  const activeNote = notes.find(note => note.id === activeNoteId);
+
+  const dispatch = useDispatch();
   const _addCategory = (category: CategoryItem) =>
     dispatch(addCategory(category));
 

@@ -12,10 +12,55 @@ import { syncState } from "slices/appStateSlice";
 import { useInterval } from "helpers/hooks";
 
 const App: React.FC = () => {
-  const { darkTheme } = useSelector((state: RootState) => state.settingsState);
-  const { notes } = useSelector((state: RootState) => state.noteState);
+  const {
+    darkTheme,
+    codeMirrorOptions,
+    loading,
+    previewMarkdown
+  } = useSelector((state: RootState) => state.settingsState);
+  const { notes, activeNoteId, activeCategoryId, activeFolder } = useSelector(
+    (state: RootState) => state.noteState
+  );
   const { categories } = useSelector((state: RootState) => state.categoryState);
+  const { navOpen, lastSynced, noteOpen } = useSelector(
+    (state: RootState) => state.appState
+  );
+
+  const mainNavProps = {
+    notes,
+    categories,
+    darkTheme,
+    activeNoteId,
+    activeCategoryId,
+    activeFolder,
+    navOpen,
+    lastSynced
+  };
+  const secondaryNavProps = {
+    notes,
+    categories,
+    noteOpen,
+    activeNoteId,
+    activeCategoryId,
+    activeFolder
+  };
+  const editorProps = {
+    notes,
+    codeMirrorOptions,
+    previewMarkdown,
+    activeNoteId,
+    loading,
+    noteOpen
+  };
+
   const dispatch = useDispatch();
+
+  const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
+    dispatch(syncState({ notes, categories }));
+
+  useInterval(() => {
+    _syncState(notes, categories);
+  }, 20000);
 
   useEffect(() => {
     dispatch(_loadSettings());
@@ -29,19 +74,11 @@ const App: React.FC = () => {
     dispatch(loadCategories());
   }, [dispatch]);
 
-  const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
-    dispatch(syncState({ notes, categories }));
-
-  useInterval(() => {
-    _syncState(notes, categories);
-  }, 20000);
-
   return (
     <div className={`app ${darkTheme ? "dark" : ""}`}>
-      {/* <button onClick={(notes, categories)=>syncState({notes, categories})} >sync</button> */}
-      <MainNav />
-      <SecondaryNav />
-      <Editor />
+      <MainNav {...mainNavProps} />
+      <SecondaryNav {...secondaryNavProps} />
+      <Editor {...editorProps} />
       <AlternatesTool />
     </div>
   );
