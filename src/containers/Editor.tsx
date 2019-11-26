@@ -1,18 +1,18 @@
 import React from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
-
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/base16-light.css";
-import "codemirror/mode/gfm/gfm";
-import "codemirror/addon/selection/active-line";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, NoteItem, CodeMirrorOptions } from "types";
+import { useDispatch } from "react-redux";
+import { NoteItem, CodeMirrorOptions } from "types";
 import ReactMarkdown from "react-markdown";
 import moment from "moment";
 import { ArrowLeft } from "react-feather";
 import { toggleNoteOpen } from "slices/appStateSlice";
 import { updateNote } from "slices/noteStateSlice";
 import { togglePreviewMarkdown } from "slices/settingsStateSlice";
+
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/base16-light.css";
+import "codemirror/mode/gfm/gfm";
+import "codemirror/addon/selection/active-line";
 
 interface IEditorProps {
   notes: NoteItem[];

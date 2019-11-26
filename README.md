@@ -5,5 +5,5 @@
 - [ ] add note for mobile
 - [ ] bug: mobile vh height is off due to browser menu
 - [ ] add footer for mobile
-- [ ] make the app a PWA
+- [ ] loading screen
 - [ ] too many dom nodes - fix alternates tool

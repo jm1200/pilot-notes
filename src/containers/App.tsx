@@ -25,26 +25,6 @@ const App: React.FC = () => {
   const { navOpen, lastSynced, noteOpen } = useSelector(
     (state: RootState) => state.appState
   );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(_loadSettings());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(loadNotes());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(loadCategories());
-  }, [dispatch]);
-
-  const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
-    dispatch(syncState({ notes, categories }));
-
-  useInterval(() => {
-    _syncState(notes, categories);
-  }, 20000);
 
   const mainNavProps = {
     notes,
@@ -72,6 +52,27 @@ const App: React.FC = () => {
     loading,
     noteOpen
   };
+
+  const dispatch = useDispatch();
+
+  const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
+    dispatch(syncState({ notes, categories }));
+
+  useInterval(() => {
+    _syncState(notes, categories);
+  }, 20000);
+
+  useEffect(() => {
+    dispatch(_loadSettings());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(loadNotes());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(loadCategories());
+  }, [dispatch]);
 
   return (
     <div className={`app ${darkTheme ? "dark" : ""}`}>
