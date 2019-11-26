@@ -45,7 +45,7 @@ export interface SettingsState {
   previewMarkdown: boolean;
   loading: boolean;
   darkTheme: boolean;
-  codeMirrorOptions: { [key: string]: any };
+  codeMirrorOptions: CodeMirrorOptions;
   error?: string;
 }
 
@@ -53,6 +53,10 @@ export interface SyncState {
   syncing: boolean;
   lastSynced: string;
   error: string;
+}
+
+export interface CodeMirrorOptions {
+  [key: string]: any;
 }
 
 //==============================================================================

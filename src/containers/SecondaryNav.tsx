@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, Folder } from "types";
+import { useDispatch } from "react-redux";
+import { Folder, CategoryItem, NoteItem, ReactMouseEvent } from "types";
 import { Menu, Star, MoreHorizontal } from "react-feather";
-import { NoteItem, ReactMouseEvent } from "types";
 import { sortByFavorites, sortByLastUpdated, getNoteTitle } from "helpers";
 import { toggleMainNav, toggleNoteOpen } from "slices/appStateSlice";
 import {
@@ -17,15 +16,23 @@ import _ from "lodash";
 import NoteOptions from "./NoteOptions";
 import NoteListButton from "components/NoteListButton";
 
-interface ISecondaryNavProps {}
+interface ISecondaryNavProps {
+  notes: NoteItem[];
+  categories: CategoryItem[];
+  noteOpen: boolean;
+  activeCategoryId: string;
+  activeNoteId: string;
+  activeFolder: Folder;
+}
 
-const SecondaryNav: React.FC<ISecondaryNavProps> = props => {
-  const { noteOpen } = useSelector((state: RootState) => state.appState);
-  const { notes, activeCategoryId, activeNoteId, activeFolder } = useSelector(
-    (state: RootState) => state.noteState
-  );
-  const { categories } = useSelector((state: RootState) => state.categoryState);
-
+const SecondaryNav: React.FC<ISecondaryNavProps> = ({
+  notes,
+  categories,
+  noteOpen,
+  activeCategoryId,
+  activeNoteId,
+  activeFolder
+}) => {
   const [searchValue, setSearchValue] = useState("");
 
   const re = new RegExp(_.escapeRegExp(searchValue), "i");
