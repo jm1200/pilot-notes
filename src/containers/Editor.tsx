@@ -1,12 +1,7 @@
 import React from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
-
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/base16-light.css";
-import "codemirror/mode/gfm/gfm";
-import "codemirror/addon/selection/active-line";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, NoteItem } from "types";
+import { useDispatch } from "react-redux";
+import { NoteItem, CodeMirrorOptions } from "types";
 import ReactMarkdown from "react-markdown";
 import moment from "moment";
 import { ArrowLeft } from "react-feather";
@@ -14,18 +9,28 @@ import { toggleNoteOpen } from "slices/appStateSlice";
 import { updateNote } from "slices/noteStateSlice";
 import { togglePreviewMarkdown } from "slices/settingsStateSlice";
 
-interface IEditorProps {}
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/base16-light.css";
+import "codemirror/mode/gfm/gfm";
+import "codemirror/addon/selection/active-line";
 
-const Editor: React.FC<IEditorProps> = props => {
-  const { loading, noteOpen } = useSelector(
-    (state: RootState) => state.appState
-  );
-  const { notes, activeNoteId } = useSelector(
-    (state: RootState) => state.noteState
-  );
-  const { codeMirrorOptions, previewMarkdown } = useSelector(
-    (state: RootState) => state.settingsState
-  );
+interface IEditorProps {
+  notes: NoteItem[];
+  activeNoteId: string;
+  codeMirrorOptions: CodeMirrorOptions;
+  previewMarkdown: boolean;
+  loading: boolean;
+  noteOpen: boolean;
+}
+
+const Editor: React.FC<IEditorProps> = ({
+  notes,
+  activeNoteId,
+  codeMirrorOptions,
+  previewMarkdown,
+  loading,
+  noteOpen
+}) => {
   const activeNote = notes.find(note => note.id === activeNoteId);
 
   const dispatch = useDispatch();
