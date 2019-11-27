@@ -14,6 +14,7 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "./GlobalStyles";
 import { AppContainer } from "./App.styles";
 import { themes } from "styles/themes";
+import Footer from "./Footer/Footer";
 
 const App: React.FC = () => {
   const {
@@ -96,6 +97,7 @@ const App: React.FC = () => {
         <NoteList {...noteListProps} />
         <Editor {...editorProps} />
         <AlternatesTool />
+        <Footer />
       </AppContainer>
     </ThemeProvider>
   );

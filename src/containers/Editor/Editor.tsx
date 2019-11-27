@@ -8,6 +8,7 @@ import { ArrowLeft } from "react-feather";
 import { toggleNoteOpen } from "slices/appStateSlice";
 import { updateNote } from "slices/noteStateSlice";
 import { togglePreviewMarkdown } from "slices/settingsStateSlice";
+import { EditorContainer } from "./Editor.styles";
 
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/base16-light.css";
@@ -105,7 +106,7 @@ const Editor: React.FC<IEditorProps> = ({
   };
 
   return (
-    <main className={`note-editor ${noteOpen ? "note-open" : ""}`}>
+    <EditorContainer className={`note-editor ${noteOpen ? "note-open" : ""}`}>
       {renderEditor()}
       {noteOpen && (
         <footer>
@@ -114,7 +115,7 @@ const Editor: React.FC<IEditorProps> = ({
           </button>
         </footer>
       )}
-    </main>
+    </EditorContainer>
   );
 };
 

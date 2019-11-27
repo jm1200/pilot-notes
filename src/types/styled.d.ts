@@ -10,5 +10,9 @@ declare module "styled-components" {
     boxShadow: string;
     categoryColor: string;
     categoryHoverColor: string;
+    alternatesToolBackground: string;
+    editorBackground: string;
+    notelistBackground: string;
+    mainNavBackground: string;
   }
 }

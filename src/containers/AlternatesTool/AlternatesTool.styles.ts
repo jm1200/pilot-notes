@@ -3,19 +3,28 @@ import { device } from "styles/devices";
 
 export const AlternatesToolContainer = styled.aside`
   position: absolute;
-  width: 100%;
-  width: 100vw;
+  width: 95%;
   top: 100px;
-  left: -500px;
+  left: -700px;
   transition: all 1s ease;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  z-index: 4;
+
+  background: ${props => props.theme.alternatesToolBackground};
+  padding: 20px;
+  border: 2px solid darkgray;
+  border-radius: 5px;
+  overflow-y: scroll;
 
   &.open {
-    left: 0px;
+    left: 10px;
     z-index: 7;
   }
 
   @media ${device.tablet} {
-    width: 500px;
+    width: 450px;
+    height: 70%;
+    margin-left: 25px;
   }
 `;

@@ -64,69 +64,67 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
 
   return (
     <AlternatesToolContainer className={alternatesTool ? "open" : ""}>
-      <div className="alternates-tool">
-        <h1 className="title">Alternates Helper Tool</h1>
+      <h1 className="title">Alternates Helper Tool</h1>
 
-        <form
-          className="alternates-tool-form"
-          onSubmit={event => event.preventDefault()}
-          autoComplete="off"
-        >
-          <div className="select-container">
-            <label htmlFor="alternates-tool-select">Aircraft Type: </label>
-            <select
-              name="alternates-tool-select"
-              className="alternates-tool-select"
-              onChange={handleSelectChange}
-              value={altToolSelect}
-            >
-              <option value="b777">B777</option>
-              <option value="b787">B787</option>
-              <option value="b767">B767</option>
-              <option value="b737">B737</option>
-              <option value="a220">A220</option>
-              <option value="a3xx">A3XX</option>
-              <option value="a330">A330</option>
-              <option value="e190">E190</option>
-            </select>
-          </div>
-
-          <div className="alternates-tool-input-container">
-            <label htmlFor="altToolInput">Search Alternates: </label>
-            <input
-              className="alternates-tool-input"
-              name="altToolInput"
-              value={altToolInput}
-              onChange={handleInputChange}
-            />
-          </div>
-        </form>
-        <div className="legend">
-          <p>D - Destination</p>
-          <p>A - Alternate</p>
-          <p>EC - Escape Chart Airport</p>
+      <form
+        className="alternates-tool-form"
+        onSubmit={event => event.preventDefault()}
+        autoComplete="off"
+      >
+        <div className="select-container">
+          <label htmlFor="alternates-tool-select">Aircraft Type: </label>
+          <select
+            name="alternates-tool-select"
+            className="alternates-tool-select"
+            onChange={handleSelectChange}
+            value={altToolSelect}
+          >
+            <option value="b777">B777</option>
+            <option value="b787">B787</option>
+            <option value="b767">B767</option>
+            <option value="b737">B737</option>
+            <option value="a220">A220</option>
+            <option value="a3xx">A3XX</option>
+            <option value="a330">A330</option>
+            <option value="e190">E190</option>
+          </select>
         </div>
-        <table className="alternates-tool-table">
-          <thead>
-            <tr>
-              <th>ICAO</th>
-              <th>IATA</th>
-              <th>Airport Name</th>
-              <th>Class</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map(line => (
-              <tr key={line.iata}>
-                <td>{line.iata}</td>
-                <td>{line.icao}</td>
-                <td>{line.airport}</td>
-                <td>{line.class}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+        <div className="alternates-tool-input-container">
+          <label htmlFor="altToolInput">Search Alternates: </label>
+          <input
+            className="alternates-tool-input"
+            name="altToolInput"
+            value={altToolInput}
+            onChange={handleInputChange}
+          />
+        </div>
+      </form>
+      <div className="legend">
+        <p>D - Destination</p>
+        <p>A - Alternate</p>
+        <p>EC - Escape Chart Airport</p>
       </div>
+      <table className="alternates-tool-table">
+        <thead>
+          <tr>
+            <th>ICAO</th>
+            <th>IATA</th>
+            <th>Airport Name</th>
+            <th>Class</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredData.map(line => (
+            <tr key={line.iata}>
+              <td>{line.iata}</td>
+              <td>{line.icao}</td>
+              <td>{line.airport}</td>
+              <td>{line.class}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </AlternatesToolContainer>
   );
 };
