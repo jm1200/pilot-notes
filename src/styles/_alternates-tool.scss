@@ -28,72 +28,78 @@
     align-items: center;
     overflow: scroll;
 
-    .alternates-tool-form {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-
-      .select-container {
-        display: flex;
-        white-space: nowrap;
-        align-items: center;
-        margin-top: 1.5rem;
-        .alternates-tool-select {
-          background: white;
-          width: 100%;
-          margin-left: 10px;
-          outline: none;
-        }
-      }
-
-      .alternates-tool-input-container {
-        margin-top: 1.5rem;
-        display: flex;
-        white-space: nowrap;
-
-        .alternates-tool-input {
-          width: 100%;
-          margin-left: 10px;
-          outline: none;
-          border: 1px solid white;
-          border-radius: 2px;
-        }
-      }
-    }
-    .legend {
-      font-size: 0.5rem;
-      width: 90%;
-      margin-top: 1rem;
-      display: flex;
-      justify-content: space-around;
-
-      p {
-        margin: 0;
-      }
-    }
-
-    .alternates-tool-table {
+    .alternate-tool-options {
+      margin: 0 auto 20px auto;
       width: 95%;
-      margin-top: 1rem;
 
-      thead {
-        margin-bottom: 14rem;
-        padding: 30px;
+      .alternates-tool-form {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        margin: auto;
 
-        th {
-          text-align: center;
+        .select-container {
+          display: flex;
+          white-space: nowrap;
+          align-items: center;
+          margin-top: 1.5rem;
+          .alternates-tool-select {
+            background: white;
+            width: 100%;
+            margin-left: 10px;
+            outline: none;
+          }
+        }
+
+        .alternates-tool-input-container {
+          margin-top: 1.5rem;
+          display: flex;
+          white-space: nowrap;
+
+          .alternates-tool-input {
+            width: 100%;
+            margin-left: 10px;
+            outline: none;
+            border: 1px solid white;
+            border-radius: 2px;
+          }
         }
       }
-      tbody {
-        tr {
-          text-align: center;
+      .legend {
+        font-size: 0.5rem;
+        width: 90%;
+        margin: 1rem auto 0 auto;
+        display: flex;
+        justify-content: space-around;
+
+        p {
+          margin: 0;
         }
       }
 
-      tbody::before {
-        content: "";
-        display: block;
-        height: 15px;
+      .alternates-tool-table {
+        width: 95%;
+        margin-top: 1rem;
+
+        thead {
+          margin-bottom: 14rem;
+          padding: 30px;
+
+          th {
+            text-align: center;
+          }
+        }
+        tbody {
+          tr {
+            text-align: center;
+          }
+        }
+
+        tbody::before {
+          content: "";
+          display: block;
+          height: 15px;
+        }
       }
     }
   }
