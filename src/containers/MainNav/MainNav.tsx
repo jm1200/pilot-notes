@@ -15,7 +15,7 @@ import {
   Check
 } from "react-feather";
 
-import MainNavActionButton from "components/MainNavActionButton";
+import MainNavActionButton from "components/MainNavActionButton/MainNavActionButton";
 
 import { toggleAlternatesTool } from "slices/appStateSlice";
 
@@ -41,7 +41,18 @@ import { CategoryItem, Folder, NoteItem, ReactSubmitEvent } from "types";
 
 import { newNote } from "helpers";
 
-import { MainNavContainer } from "./MainNav.styles";
+import {
+  MainNavContainer,
+  MainNavActions,
+  MainNavBody,
+  MainNavBodyBottomSection,
+  MainNavBodyTopSection,
+  Synced,
+  CategoryTitle,
+  MainNavLink,
+  CategoryList,
+  CategoryListEach
+} from "./MainNav.styles";
 
 interface IMainNavProps {
   notes: NoteItem[];
@@ -184,7 +195,7 @@ const MainNav: React.FC<IMainNavProps> = ({
 
   return (
     <MainNavContainer className={navOpen ? "main-nav open" : "main-nav"}>
-      <section className="main-nav-actions">
+      <MainNavActions>
         <MainNavActionButton
           handler={handleNewNote}
           icon={Plus}
@@ -208,156 +219,162 @@ const MainNav: React.FC<IMainNavProps> = ({
             label={"choose theme"}
           />
         )}
-      </section>
-      <section className="main-nav-body">
-        <div
-          className={`main-nav-link ${activeFolder === "all" ? "active" : ""}`}
-          onClick={() => {
-            handleSwapFolder("all");
-          }}
-        >
-          <Book size={15} className="main-nav-icon" />
-          All Notes
-        </div>
-        <div
-          className={`main-nav-link ${
-            activeFolder === "favorites" ? "active" : ""
-          }`}
-          onClick={() => handleSwapFolder("favorites")}
-        >
-          <Star size={15} className="main-nav-icon" />
-          Favorites
-        </div>
-        <div
-          className={`main-nav-link ${
-            activeFolder === "trash" ? "active" : ""
-          }`}
-          onClick={() => handleSwapFolder("trash")}
-        >
-          <Trash2 size={15} className="main-nav-icon" />
-          Trash
-        </div>
-        <div className="category-title">
-          <h2>Categories</h2>
-        </div>
-        <div className="category-list">
-          <div
-            className={`category-list-each ${
-              activeCategoryId === "routes" ? "active" : ""
+      </MainNavActions>
+      <MainNavBody>
+        <MainNavBodyTopSection>
+          <MainNavLink
+            className={`main-nav-link ${
+              activeFolder === "all" ? "active" : ""
             }`}
-            onClick={() => handleSwapCategory("routes")}
+            onClick={() => {
+              handleSwapFolder("all");
+            }}
           >
-            <div className="category-list-name">
-              <ArrowRightCircle size={15} className="main-nav-icon" />
-              Routes
-            </div>
-          </div>
+            <Book size={15} className="main-nav-icon" />
+            All Notes
+          </MainNavLink>
+          <MainNavLink
+            className={`main-nav-link ${
+              activeFolder === "favorites" ? "active" : ""
+            }`}
+            onClick={() => handleSwapFolder("favorites")}
+          >
+            <Star size={15} className="main-nav-icon" />
+            Favorites
+          </MainNavLink>
+          <MainNavLink
+            className={`main-nav-link ${
+              activeFolder === "trash" ? "active" : ""
+            }`}
+            onClick={() => handleSwapFolder("trash")}
+          >
+            <Trash2 size={15} className="main-nav-icon" />
+            Trash
+          </MainNavLink>
 
-          {categories.map(category => {
-            //console.log("category map: ", category.id);
-            return (
-              <div
-                key={category.id}
-                className={`category-list-each ${
-                  category.id === activeCategoryId ? "active" : ""
-                }`}
-                onClick={() => handleSwapCategory(category.id)}
-                onDoubleClick={() => {
-                  console.log("double click:", category.id);
-                  setEditingCategoryId(category.id);
-                  setTempCategoryName(category.id);
-                }}
-                onBlur={() => {
-                  setEditingCategoryId("");
-                }}
-              >
-                <form
-                  className="category-list-name"
-                  onSubmit={event => {
-                    event.preventDefault();
-                    setEditingCategoryId("");
-                    onSubmitUpdateCategory(event, category.id);
-                  }}
-                >
-                  <FolderIcon size={15} className="main-nav-icon" />
-                  {editingCategoryId === category.id ? (
-                    <input
-                      type="text"
-                      autoFocus
-                      maxLength={20}
-                      className="category-edit"
-                      value={tempCategoryName}
-                      onChange={event => {
-                        setTempCategoryName(event.target.value);
-                      }}
-                      onBlur={event => {
-                        resetTempCategory();
-                      }}
-                    />
-                  ) : (
-                    category.id
-                  )}
-                </form>
-                <div
-                  className="category-options"
-                  onClick={() => {
-                    const notesNotTrash = notes.filter(note => !note.trash);
-                    const newNoteId =
-                      notesNotTrash.length > 0 ? notesNotTrash[0].id : "";
+          <CategoryTitle>Categories</CategoryTitle>
 
-                    _deleteCategory(category.id);
-                    // _pruneCategoryFromNotes(category.id)
-                    _swapFolder("all");
-                    _swapNote(newNoteId);
-                  }}
-                >
-                  <X size={12} aria-label="Remove category" />
-                </div>
+          <CategoryList>
+            <CategoryListEach
+              className={`category-list-each ${
+                activeCategoryId === "routes" ? "active" : ""
+              }`}
+              onClick={() => handleSwapCategory("routes")}
+            >
+              <div className="category-list-name">
+                <ArrowRightCircle size={15} className="main-nav-icon" />
+                Routes
               </div>
-            );
-          })}
-        </div>
+            </CategoryListEach>
 
-        {!addingTempCategory && (
-          <button
-            className="category-button"
-            onClick={newTempCategoryHandler}
-            aria-label="Add category"
-          >
-            <Plus size={15} />
-            Add Category
-          </button>
-        )}
-        {addingTempCategory && (
-          <form className="category-form" onSubmit={onSubmitNewCategory}>
-            <input
-              aria-label="Category name"
-              type="text"
-              autoFocus
-              maxLength={20}
-              placeholder="New category..."
-              onChange={event => {
-                setTempCategoryName(event.target.value);
-              }}
-              onBlur={event => {
-                if (!tempCategoryName || tempCategoryName.trim() === "") {
-                  resetTempCategory();
-                } else {
-                  onSubmitNewCategory(event);
-                }
-              }}
-            />
-          </form>
-        )}
-      </section>
-      {lastSynced && (
-        <section className="main-nav-synced">
-          <div className="last-synced">
-            <Check size={14} className="main-nav-icon" />{" "}
-            {moment(lastSynced).format("h:mm A on M/D/Y")}
-          </div>
-        </section>
-      )}
+            {categories.map(category => {
+              //console.log("category map: ", category.id);
+              return (
+                <CategoryListEach
+                  key={category.id}
+                  className={`category-list-each ${
+                    category.id === activeCategoryId ? "active" : ""
+                  }`}
+                  onClick={() => handleSwapCategory(category.id)}
+                  onDoubleClick={() => {
+                    console.log("double click:", category.id);
+                    setEditingCategoryId(category.id);
+                    setTempCategoryName(category.id);
+                  }}
+                  onBlur={() => {
+                    setEditingCategoryId("");
+                  }}
+                >
+                  <form
+                    className="category-list-name"
+                    onSubmit={event => {
+                      event.preventDefault();
+                      setEditingCategoryId("");
+                      onSubmitUpdateCategory(event, category.id);
+                    }}
+                  >
+                    <FolderIcon size={15} className="main-nav-icon" />
+                    {editingCategoryId === category.id ? (
+                      <input
+                        type="text"
+                        autoFocus
+                        maxLength={20}
+                        className="category-edit"
+                        value={tempCategoryName}
+                        onChange={event => {
+                          setTempCategoryName(event.target.value);
+                        }}
+                        onBlur={event => {
+                          resetTempCategory();
+                        }}
+                      />
+                    ) : (
+                      category.id
+                    )}
+                  </form>
+                  <div
+                    className="category-options"
+                    onClick={() => {
+                      const notesNotTrash = notes.filter(note => !note.trash);
+                      const newNoteId =
+                        notesNotTrash.length > 0 ? notesNotTrash[0].id : "";
+
+                      _deleteCategory(category.id);
+                      // _pruneCategoryFromNotes(category.id)
+                      _swapFolder("all");
+                      _swapNote(newNoteId);
+                    }}
+                  >
+                    <X size={12} aria-label="Remove category" />
+                  </div>
+                </CategoryListEach>
+              );
+            })}
+          </CategoryList>
+
+          {!addingTempCategory && (
+            <button
+              className="category-button"
+              onClick={newTempCategoryHandler}
+              aria-label="Add category"
+            >
+              <Plus size={15} />
+              Add Category
+            </button>
+          )}
+          {addingTempCategory && (
+            <form className="category-form" onSubmit={onSubmitNewCategory}>
+              <input
+                aria-label="Category name"
+                type="text"
+                autoFocus
+                maxLength={20}
+                placeholder="New category..."
+                onChange={event => {
+                  setTempCategoryName(event.target.value);
+                }}
+                onBlur={event => {
+                  if (!tempCategoryName || tempCategoryName.trim() === "") {
+                    resetTempCategory();
+                  } else {
+                    onSubmitNewCategory(event);
+                  }
+                }}
+              />
+            </form>
+          )}
+        </MainNavBodyTopSection>
+        <MainNavBodyBottomSection>tools...</MainNavBodyBottomSection>
+      </MainNavBody>
+      {/* {lastSynced && ( */}
+      <Synced className="main-nav-synced">
+        <div className="last-synced">
+          <Check size={14} className="main-nav-icon" />{" "}
+          {moment(lastSynced).format("h:mm A on M/D/Y")}
+          sync
+        </div>
+      </Synced>
+      {/* )} */}
     </MainNavContainer>
   );
 };

@@ -14,5 +14,12 @@ declare module "styled-components" {
     editorBackground: string;
     notelistBackground: string;
     mainNavBackground: string;
+    borderColor: string;
+
+    colors: {
+      lightFontColor: string;
+      darkFontColor: string;
+      primary: string;
+    };
   }
 }

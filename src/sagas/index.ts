@@ -37,7 +37,6 @@ import seedData from "data/seed";
 function* syncSettings() {
   try {
     const settings = yield select(getSettings);
-    console.log("settings to save:", settings);
     yield saveSettings(settings);
   } catch (err) {
     console.log("error while saving settings", err);

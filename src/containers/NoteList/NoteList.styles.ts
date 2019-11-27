@@ -7,6 +7,7 @@ export const NoteListContainer = styled.div`
   transition: all 1s ease;
 
   background: ${props => props.theme.notelistBackground};
+  border-right: 1px solid ${props => props.theme.borderColor};
 
   &.note-open {
     flex: 0;
