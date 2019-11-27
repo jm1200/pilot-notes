@@ -30,6 +30,7 @@ export const themes = {
   light: {
     type: "light",
     bgColor: "#FFF",
+
     alternatesToolBackground: "#E6E6E6",
     editorBackground: "#E6E6E6",
     notelistBackground: "#DADADA",
