@@ -41,10 +41,12 @@ import { CategoryItem, Folder, NoteItem, ReactSubmitEvent } from "types";
 
 import { newNote } from "helpers";
 
+import { MainNavContainer } from "./MainNav.styles";
+
 interface IMainNavProps {
   notes: NoteItem[];
   categories: CategoryItem[];
-  darkTheme: boolean;
+  darkThemeSetting: boolean;
   activeNoteId: string;
   activeCategoryId: string;
   activeFolder: Folder;
@@ -55,7 +57,7 @@ interface IMainNavProps {
 const MainNav: React.FC<IMainNavProps> = ({
   notes,
   categories,
-  darkTheme,
+  darkThemeSetting,
   activeNoteId,
   activeCategoryId,
   activeFolder,
@@ -127,7 +129,10 @@ const MainNav: React.FC<IMainNavProps> = ({
   };
   const toggleDarkThemeHandler = () => {
     _toggleDarkTheme();
-    _updateCodeMirrorOption("theme", darkTheme ? "base16-light" : "new-moon");
+    _updateCodeMirrorOption(
+      "theme",
+      darkThemeSetting ? "base16-light" : "new-moon"
+    );
   };
 
   const onSubmitNewCategory = (event: ReactSubmitEvent) => {
@@ -178,7 +183,7 @@ const MainNav: React.FC<IMainNavProps> = ({
   };
 
   return (
-    <aside className={navOpen ? "main-nav open" : "main-nav"}>
+    <MainNavContainer className={navOpen ? "main-nav open" : "main-nav"}>
       <section className="main-nav-actions">
         <MainNavActionButton
           handler={handleNewNote}
@@ -190,7 +195,7 @@ const MainNav: React.FC<IMainNavProps> = ({
           icon={Globe}
           label={"Alternates Tool"}
         />
-        {darkTheme ? (
+        {darkThemeSetting ? (
           <MainNavActionButton
             handler={toggleDarkThemeHandler}
             icon={Sun}
@@ -353,7 +358,7 @@ const MainNav: React.FC<IMainNavProps> = ({
           </div>
         </section>
       )}
-    </aside>
+    </MainNavContainer>
   );
 };
 

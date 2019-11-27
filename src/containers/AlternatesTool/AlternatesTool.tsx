@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "types";
 import data from "data/alts.json";
 import { AltObject } from "types";
+import { AlternatesToolContainer } from "./AlternatesTool.styles";
 
 interface IAlternatesToolProps {}
 
@@ -62,9 +63,7 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
   }, [altToolSelect, altToolInput]);
 
   return (
-    <aside
-      className={`alternates-tool-container ${alternatesTool ? "open" : ""}`}
-    >
+    <AlternatesToolContainer className={alternatesTool ? "open" : ""}>
       <div className="alternates-tool">
         <h1 className="title">Alternates Helper Tool</h1>
 
@@ -128,7 +127,7 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
           </tbody>
         </table>
       </div>
-    </aside>
+    </AlternatesToolContainer>
   );
 };
 
