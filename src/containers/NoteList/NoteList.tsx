@@ -13,10 +13,11 @@ import {
   emptyTrash
 } from "slices/noteStateSlice";
 import _ from "lodash";
-import NoteOptions from "./NoteOptions";
+import NoteOptions from "../NoteOptions";
 import NoteListButton from "components/NoteListButton";
+import { NoteListContainer } from "./NoteList.styles";
 
-interface ISecondaryNavProps {
+interface INoteListProps {
   notes: NoteItem[];
   categories: CategoryItem[];
   noteOpen: boolean;
@@ -25,7 +26,7 @@ interface ISecondaryNavProps {
   activeFolder: Folder;
 }
 
-const SecondaryNav: React.FC<ISecondaryNavProps> = ({
+const NoteList: React.FC<INoteListProps> = ({
   notes,
   categories,
   noteOpen,
@@ -134,7 +135,9 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = ({
   });
 
   return (
-    <div className={`note-sidebar ${noteOpen ? "note-open" : ""}`}>
+    <NoteListContainer
+      className={`note-sidebar ${noteOpen ? "note-open" : ""}`}
+    >
       <div className="note-sidebar-header">
         <div className="mobile-sidebar-options">
           <button className="toggle-mobile-nav" onClick={toggleNavOpen}>
@@ -249,8 +252,8 @@ const SecondaryNav: React.FC<ISecondaryNavProps> = ({
           );
         })}
       </div>
-    </div>
+    </NoteListContainer>
   );
 };
 
-export default SecondaryNav;
+export default NoteList;

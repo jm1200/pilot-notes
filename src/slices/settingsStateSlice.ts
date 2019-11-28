@@ -3,7 +3,7 @@ import { SettingsState } from "types";
 
 export const initialSettingsState: SettingsState = {
   previewMarkdown: true,
-  darkTheme: true,
+  darkThemeSetting: true,
   loading: false,
   error: "",
   codeMirrorOptions: {
@@ -61,7 +61,7 @@ const settingsStateSlice = createSlice({
     toggleDarkTheme: (state: SettingsState) => {
       return {
         ...state,
-        darkTheme: !state.darkTheme
+        darkThemeSetting: !state.darkThemeSetting
       };
     }
   }

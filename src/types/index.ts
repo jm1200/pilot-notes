@@ -44,7 +44,7 @@ export interface AppState {
 export interface SettingsState {
   previewMarkdown: boolean;
   loading: boolean;
-  darkTheme: boolean;
+  darkThemeSetting: boolean;
   codeMirrorOptions: CodeMirrorOptions;
   error?: string;
 }
