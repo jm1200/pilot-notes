@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { device } from "styles/devices";
 import { lighten, darken } from "polished";
+import {} from "styles/themes";
 
 export const MainNavContainer = styled.aside`
   flex: 0;
@@ -105,7 +106,31 @@ export const CategoryListEach = styled.div`
 
   .category-list-name {
     display: flex;
+    width: 100%;
     align-items: center;
+    justify-items: left;
+    justify-content: left;
+  }
+
+  [type="text"] {
+    -webkit-appearance: none;
+    border-radius: 4px;
+    background: ${props =>
+      props.theme.mainNavBackground &&
+      darken(0.05, props.theme.mainNavBackground)};
+    border: none;
+    font-size: 0.9rem;
+    color: #eee;
+    line-height: 1;
+    padding: 0;
+    width: auto;
+    max-width: 100px;
+    margin: 0;
+
+    &:hover,
+    &:focus {
+      border: none;
+    }
   }
 
   &:hover {
@@ -135,6 +160,41 @@ export const CategoryListEach = styled.div`
   }
   svg {
     stroke: rgba(255, 255, 255, 0.25);
+  }
+`;
+
+export const AddCategoryButton = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 0;
+  color: ${props =>
+    props.theme.colors.lightFontColor &&
+    darken(0.25, props.theme.colors.lightFontColor)};
+  font-size: 0.8rem;
+  background: transparent;
+  border: none;
+  margin: 1rem 0.5rem;
+
+  svg {
+    margin-right: 0.75rem;
+  }
+  &:hover {
+    color: white;
+  }
+`;
+
+export const AddCategoryForm = styled.form`
+  [type="text"] {
+    background: ${props =>
+      props.theme.mainNavBackground &&
+      darken(0.05, props.theme.mainNavBackground)};
+    width: 94%;
+    margin: 10px auto;
+
+    &:hover,
+    &:focus {
+      border: none;
+    }
   }
 `;
 

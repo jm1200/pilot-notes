@@ -5,8 +5,10 @@ export const themes = {
     colors: {
       lightFontColor: "#d0d0d0",
       darkFontColor: "#404040",
-      primary: "#5183f5"
+      primary: "#5183f5",
+      accentGrey: "#d0d0d0"
     },
+
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, 'Helvetica Neue', sans-serif"
   },
@@ -39,4 +41,22 @@ export const themes = {
     categoryColor: "#CBD2D9",
     categoryHoverColor: "#9AA5B1"
   }
+};
+
+export const forms = {
+  display: "block",
+  borderRdius: "4px",
+  border: "1px solid $accent-gray",
+  padding: "0.75rem",
+  outline: "none",
+  marginBottom: "0.5rem",
+  fontSize: "1rem",
+  width: "100%",
+  maxWidth: "100%"
+};
+
+export const formsFocus = {
+  outline: "0",
+  border: `1px solid ${lighten(0.15, themes.common.colors.primary)}`,
+  boxShadow: "0 0 0 0.2rem rgba(0, 123, 255, 0.25)"
 };

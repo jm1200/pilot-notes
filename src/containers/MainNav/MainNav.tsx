@@ -51,7 +51,9 @@ import {
   CategoryTitle,
   MainNavLink,
   CategoryList,
-  CategoryListEach
+  CategoryListEach,
+  AddCategoryButton,
+  AddCategoryForm
 } from "./MainNav.styles";
 
 interface IMainNavProps {
@@ -285,16 +287,16 @@ const MainNav: React.FC<IMainNavProps> = ({
                     setEditingCategoryId("");
                   }}
                 >
-                  <form
-                    className="category-list-name"
-                    onSubmit={event => {
-                      event.preventDefault();
-                      setEditingCategoryId("");
-                      onSubmitUpdateCategory(event, category.id);
-                    }}
-                  >
-                    <FolderIcon size={15} className="main-nav-icon" />
-                    {editingCategoryId === category.id ? (
+                  <FolderIcon size={15} className="main-nav-icon" />
+                  {editingCategoryId === category.id ? (
+                    <form
+                      className="category-list-name"
+                      onSubmit={event => {
+                        event.preventDefault();
+                        setEditingCategoryId("");
+                        onSubmitUpdateCategory(event, category.id);
+                      }}
+                    >
                       <input
                         type="text"
                         autoFocus
@@ -308,10 +310,11 @@ const MainNav: React.FC<IMainNavProps> = ({
                           resetTempCategory();
                         }}
                       />
-                    ) : (
-                      category.id
-                    )}
-                  </form>
+                    </form>
+                  ) : (
+                    <div className="category-list-name">{category.id}</div>
+                  )}
+
                   <div
                     className="category-options"
                     onClick={() => {
@@ -333,17 +336,17 @@ const MainNav: React.FC<IMainNavProps> = ({
           </CategoryList>
 
           {!addingTempCategory && (
-            <button
+            <AddCategoryButton
               className="category-button"
               onClick={newTempCategoryHandler}
               aria-label="Add category"
             >
               <Plus size={15} />
               Add Category
-            </button>
+            </AddCategoryButton>
           )}
           {addingTempCategory && (
-            <form className="category-form" onSubmit={onSubmitNewCategory}>
+            <AddCategoryForm onSubmit={onSubmitNewCategory}>
               <input
                 aria-label="Category name"
                 type="text"
@@ -361,7 +364,7 @@ const MainNav: React.FC<IMainNavProps> = ({
                   }
                 }}
               />
-            </form>
+            </AddCategoryForm>
           )}
         </MainNavBodyTopSection>
         <MainNavBodyBottomSection>tools...</MainNavBodyBottomSection>

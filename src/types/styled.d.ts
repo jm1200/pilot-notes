@@ -20,6 +20,7 @@ declare module "styled-components" {
       lightFontColor: string;
       darkFontColor: string;
       primary: string;
+      accentGrey: string;
     };
   }
 }
