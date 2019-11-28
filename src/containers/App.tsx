@@ -1,19 +1,24 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import MainNav from "./MainNav";
-import SecondaryNav from "./SecondaryNav";
-import Editor from "./Editor";
-import AlternatesTool from "./AlternatesTool";
+import MainNav from "./MainNav/MainNav";
+import NoteList from "./NoteList/NoteList";
+import Editor from "./Editor/Editor";
+import AlternatesTool from "./AlternatesTool/AlternatesTool";
 import { RootState, NoteItem, CategoryItem } from "types";
 import { _loadSettings } from "slices/settingsStateSlice";
 import { loadNotes } from "slices/noteStateSlice";
 import { loadCategories } from "slices/categoryStateSlice";
 import { syncState } from "slices/appStateSlice";
 import { useInterval } from "helpers/hooks";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyle } from "./GlobalStyles";
+import { AppContainer } from "./App.styles";
+import { themes } from "styles/themes";
+import Footer from "./Footer/Footer";
 
 const App: React.FC = () => {
   const {
-    darkTheme,
+    darkThemeSetting,
     codeMirrorOptions,
     loading,
     previewMarkdown
@@ -29,14 +34,14 @@ const App: React.FC = () => {
   const mainNavProps = {
     notes,
     categories,
-    darkTheme,
+    darkThemeSetting,
     activeNoteId,
     activeCategoryId,
     activeFolder,
     navOpen,
     lastSynced
   };
-  const secondaryNavProps = {
+  const noteListProps = {
     notes,
     categories,
     noteOpen,
@@ -53,14 +58,24 @@ const App: React.FC = () => {
     noteOpen
   };
 
+  const lightTheme = () => ({
+    ...themes["common"],
+    ...themes["light"]
+  });
+
+  const darkTheme = () => ({
+    ...themes["common"],
+    ...themes["dark"]
+  });
+
   const dispatch = useDispatch();
 
-  const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
-    dispatch(syncState({ notes, categories }));
+  // const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
+  //   dispatch(syncState({ notes, categories }));
 
-  useInterval(() => {
-    _syncState(notes, categories);
-  }, 20000);
+  // useInterval(() => {
+  //   _syncState(notes, categories);
+  // }, 20000);
 
   useEffect(() => {
     dispatch(_loadSettings());
@@ -75,12 +90,16 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className={`app ${darkTheme ? "dark" : ""}`}>
-      <MainNav {...mainNavProps} />
-      <SecondaryNav {...secondaryNavProps} />
-      <Editor {...editorProps} />
-      <AlternatesTool />
-    </div>
+    <ThemeProvider theme={darkThemeSetting ? darkTheme : lightTheme}>
+      <GlobalStyle />
+      <AppContainer className={`app ${darkThemeSetting ? "dark" : ""}`}>
+        <MainNav {...mainNavProps} />
+        <NoteList {...noteListProps} />
+        <Editor {...editorProps} />
+        <AlternatesTool />
+        <Footer />
+      </AppContainer>
+    </ThemeProvider>
   );
 };
 
