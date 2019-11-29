@@ -24,6 +24,9 @@ const appStateSlice = createSlice({
     toggleMainNav(state: AppState) {
       state.navOpen = !state.navOpen;
     },
+    setMainNav(state: AppState, action: PayloadAction<boolean>) {
+      state.navOpen = action.payload;
+    },
     toggleNoteOpen(state: AppState) {
       state.noteOpen = !state.noteOpen;
     },
@@ -44,6 +47,7 @@ const appStateSlice = createSlice({
 export const {
   toggleAlternatesTool,
   toggleMainNav,
+  setMainNav,
   toggleNoteOpen,
   syncState,
   syncStateError,

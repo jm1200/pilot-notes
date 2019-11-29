@@ -30,6 +30,7 @@ const App: React.FC = () => {
   const { navOpen, lastSynced, noteOpen } = useSelector(
     (state: RootState) => state.appState
   );
+  const { alternatesTool } = useSelector((state: RootState) => state.appState);
 
   const mainNavProps = {
     notes,
@@ -39,7 +40,8 @@ const App: React.FC = () => {
     activeCategoryId,
     activeFolder,
     navOpen,
-    lastSynced
+    lastSynced,
+    previewMarkdown
   };
   const noteListProps = {
     notes,
@@ -56,6 +58,17 @@ const App: React.FC = () => {
     activeNoteId,
     loading,
     noteOpen
+  };
+  const footerProps = {
+    previewMarkdown,
+    noteOpen,
+    activeFolder,
+    activeNoteId,
+    notes,
+    activeCategoryId
+  };
+  const altToolsProps = {
+    alternatesTool
   };
 
   const lightTheme = () => ({
@@ -96,8 +109,8 @@ const App: React.FC = () => {
         <MainNav {...mainNavProps} />
         <NoteList {...noteListProps} />
         <Editor {...editorProps} />
-        <AlternatesTool />
-        <Footer />
+        <AlternatesTool {...altToolsProps} />
+        <Footer {...footerProps} />
       </AppContainer>
     </ThemeProvider>
   );

@@ -15,11 +15,16 @@ declare module "styled-components" {
     notelistBackground: string;
     mainNavBackground: string;
     borderColor: string;
+    previewer: {
+      tag: string;
+      attribute: string;
+    };
 
     colors: {
       lightFontColor: string;
       darkFontColor: string;
       primary: string;
+      accentGrey: string;
     };
   }
 }

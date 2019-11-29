@@ -5,6 +5,7 @@ import {
   Sun,
   Moon,
   Globe,
+  PlusCircle,
   Plus,
   Star,
   Trash2,
@@ -12,7 +13,9 @@ import {
   Folder as FolderIcon,
   X,
   Book,
-  Check
+  Check,
+  Edit,
+  FileText
 } from "react-feather";
 
 import MainNavActionButton from "components/MainNavActionButton/MainNavActionButton";
@@ -21,11 +24,14 @@ import { toggleAlternatesTool } from "slices/appStateSlice";
 
 import {
   toggleDarkTheme,
-  updateCodeMirrorOptions
+  updateCodeMirrorOptions,
+  togglePreviewMarkdown,
+  setPreviewMarkdown
 } from "slices/settingsStateSlice";
 
 import {
   swapCategory,
+  setActiveCategory,
   addNote,
   swapFolder,
   swapNote
@@ -37,9 +43,15 @@ import {
   updateCategory
 } from "slices/categoryStateSlice";
 
-import { CategoryItem, Folder, NoteItem, ReactSubmitEvent } from "types";
+import {
+  CategoryItem,
+  Folder,
+  NoteItem,
+  ReactSubmitEvent,
+  ReactMouseEvent
+} from "types";
 
-import { newNote } from "helpers";
+import { newNote, newRouteNote } from "helpers";
 
 import {
   MainNavContainer,
@@ -51,7 +63,9 @@ import {
   CategoryTitle,
   MainNavLink,
   CategoryList,
-  CategoryListEach
+  CategoryListEach,
+  AddCategoryButton,
+  AddCategoryForm
 } from "./MainNav.styles";
 
 interface IMainNavProps {
@@ -63,6 +77,7 @@ interface IMainNavProps {
   activeFolder: Folder;
   navOpen: boolean;
   lastSynced: string;
+  previewMarkdown: boolean;
 }
 
 const MainNav: React.FC<IMainNavProps> = ({
@@ -73,7 +88,8 @@ const MainNav: React.FC<IMainNavProps> = ({
   activeCategoryId,
   activeFolder,
   navOpen,
-  lastSynced
+  lastSynced,
+  previewMarkdown
 }) => {
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
@@ -100,6 +116,9 @@ const MainNav: React.FC<IMainNavProps> = ({
   const _swapNote = (noteId: string) => {
     dispatch(swapNote(noteId));
   };
+  const _setActiveCategory = (noteId: string) => {
+    dispatch(setActiveCategory(noteId));
+  };
 
   const _updateCategory = (oldId: string, newId: string) => {
     dispatch(updateCategory({ oldId, newId }));
@@ -108,6 +127,9 @@ const MainNav: React.FC<IMainNavProps> = ({
   const _deleteCategory = (categoryId: string) => {
     dispatch(deleteCategory(categoryId));
   };
+  const _togglePreviewMarkdown = () => dispatch(togglePreviewMarkdown());
+  const _setPreviewMarkdown = (bool: boolean) =>
+    dispatch(setPreviewMarkdown(bool));
 
   const handleSwapFolder = (folder: Folder) => {
     _swapFolder(folder);
@@ -128,6 +150,31 @@ const MainNav: React.FC<IMainNavProps> = ({
       );
       _addNote(note);
       _swapNote(note.id);
+      _setPreviewMarkdown(false);
+    }
+  };
+
+  const handleNewRouteNote = (e: ReactMouseEvent) => {
+    e.stopPropagation();
+    if (activeFolder === "trash") {
+      _swapFolder("all");
+    }
+
+    if (
+      (activeNote &&
+        activeNote.text !== "" &&
+        activeNote &&
+        !activeNote.text.slice(0, 20).includes("# New Route Title")) ||
+      !activeNote
+    ) {
+      const note = newRouteNote(
+        "routes",
+        activeFolder === "favorites" ? "favorites" : "all"
+      );
+      _addNote(note);
+      _setActiveCategory("routes");
+      _swapNote(note.id);
+      _setPreviewMarkdown(false);
     }
   };
 
@@ -201,11 +248,20 @@ const MainNav: React.FC<IMainNavProps> = ({
           icon={Plus}
           label={"Add Note"}
         />
-        <MainNavActionButton
-          handler={toggleAlternates}
-          icon={Globe}
-          label={"Alternates Tool"}
-        />
+        {previewMarkdown ? (
+          <MainNavActionButton
+            handler={_togglePreviewMarkdown}
+            icon={Edit}
+            label={"Edit Mode"}
+          />
+        ) : (
+          <MainNavActionButton
+            handler={_togglePreviewMarkdown}
+            icon={FileText}
+            label={"Preview Mode"}
+          />
+        )}
+
         {darkThemeSetting ? (
           <MainNavActionButton
             handler={toggleDarkThemeHandler}
@@ -265,6 +321,12 @@ const MainNav: React.FC<IMainNavProps> = ({
                 <ArrowRightCircle size={15} className="main-nav-icon" />
                 Routes
               </div>
+              <div
+                className="category-options"
+                onClick={e => handleNewRouteNote(e)}
+              >
+                <PlusCircle size={16} aria-label="Remove category" />
+              </div>
             </CategoryListEach>
 
             {categories.map(category => {
@@ -285,16 +347,16 @@ const MainNav: React.FC<IMainNavProps> = ({
                     setEditingCategoryId("");
                   }}
                 >
-                  <form
-                    className="category-list-name"
-                    onSubmit={event => {
-                      event.preventDefault();
-                      setEditingCategoryId("");
-                      onSubmitUpdateCategory(event, category.id);
-                    }}
-                  >
-                    <FolderIcon size={15} className="main-nav-icon" />
-                    {editingCategoryId === category.id ? (
+                  <FolderIcon size={15} className="main-nav-icon" />
+                  {editingCategoryId === category.id ? (
+                    <form
+                      className="category-list-name"
+                      onSubmit={event => {
+                        event.preventDefault();
+                        setEditingCategoryId("");
+                        onSubmitUpdateCategory(event, category.id);
+                      }}
+                    >
                       <input
                         type="text"
                         autoFocus
@@ -308,10 +370,11 @@ const MainNav: React.FC<IMainNavProps> = ({
                           resetTempCategory();
                         }}
                       />
-                    ) : (
-                      category.id
-                    )}
-                  </form>
+                    </form>
+                  ) : (
+                    <div className="category-list-name">{category.id}</div>
+                  )}
+
                   <div
                     className="category-options"
                     onClick={() => {
@@ -333,17 +396,17 @@ const MainNav: React.FC<IMainNavProps> = ({
           </CategoryList>
 
           {!addingTempCategory && (
-            <button
+            <AddCategoryButton
               className="category-button"
               onClick={newTempCategoryHandler}
               aria-label="Add category"
             >
               <Plus size={15} />
               Add Category
-            </button>
+            </AddCategoryButton>
           )}
           {addingTempCategory && (
-            <form className="category-form" onSubmit={onSubmitNewCategory}>
+            <AddCategoryForm onSubmit={onSubmitNewCategory}>
               <input
                 aria-label="Category name"
                 type="text"
@@ -361,20 +424,49 @@ const MainNav: React.FC<IMainNavProps> = ({
                   }
                 }}
               />
-            </form>
+            </AddCategoryForm>
           )}
         </MainNavBodyTopSection>
-        <MainNavBodyBottomSection>tools...</MainNavBodyBottomSection>
+        <MainNavBodyBottomSection>
+          <CategoryTitle>tools</CategoryTitle>
+          <CategoryList>
+            <CategoryListEach onClick={toggleAlternates}>
+              <MainNavActionButton
+                handler={() => {}}
+                icon={Globe}
+                label={"Alternates Tool"}
+              />
+              <div className="category-list-name">Alternates Tool</div>
+            </CategoryListEach>
+            <CategoryListEach onClick={() => {}}>
+              <MainNavActionButton
+                handler={() => {}}
+                icon={Plus}
+                label={"Marketplace"}
+                disabled
+              />
+              <div className="category-list-name">MarketPlace</div>
+            </CategoryListEach>
+            <CategoryListEach onClick={() => {}}>
+              <MainNavActionButton
+                handler={() => {}}
+                icon={X}
+                label={"New Feature"}
+                disabled
+              />
+              <div className="category-list-name">New Feature</div>
+            </CategoryListEach>
+          </CategoryList>
+        </MainNavBodyBottomSection>
       </MainNavBody>
-      {/* {lastSynced && ( */}
-      <Synced className="main-nav-synced">
-        <div className="last-synced">
-          <Check size={14} className="main-nav-icon" />{" "}
-          {moment(lastSynced).format("h:mm A on M/D/Y")}
-          sync
-        </div>
-      </Synced>
-      {/* )} */}
+      {lastSynced && (
+        <Synced className="main-nav-synced">
+          <div className="last-synced">
+            <Check size={14} className="main-nav-icon" />{" "}
+            {moment(lastSynced).format("h:mm A on M/D/Y")}
+          </div>
+        </Synced>
+      )}
     </MainNavContainer>
   );
 };
