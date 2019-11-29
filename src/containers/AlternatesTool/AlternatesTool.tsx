@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "types";
 import data from "data/alts.json";
 import { AltObject } from "types";
-import { AlternatesToolContainer } from "./AlternatesTool.styles";
+import { X } from "react-feather";
+import {
+  AlternatesToolContainer,
+  AltToolsForm,
+  AltToolsLegend,
+  AltToolsTable,
+  CloseMenu
+} from "./AlternatesTool.styles";
+import { toggleAlternatesTool } from "slices/appStateSlice";
 
-interface IAlternatesToolProps {}
+interface IAlternatesToolProps {
+  alternatesTool: boolean;
+}
 
 interface Filtered {
   icao: string;
@@ -14,11 +24,14 @@ interface Filtered {
   class: string;
 }
 
-const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
-  const { alternatesTool } = useSelector((state: RootState) => state.appState);
+const AlternatesTool: React.FC<IAlternatesToolProps> = ({ alternatesTool }) => {
   const [altToolInput, setAltToolInput] = useState("");
   const [altToolSelect, setAltToolSelect] = useState<keyof AltObject>("b777");
+  const dispatch = useDispatch();
 
+  const _toggleAlternatesTool = () => {
+    dispatch(toggleAlternatesTool());
+  };
   const initialData: Filtered[] = data.map(line => {
     return {
       iata: line.iata,
@@ -66,7 +79,7 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
     <AlternatesToolContainer className={alternatesTool ? "open" : ""}>
       <h1 className="title">Alternates Helper Tool</h1>
 
-      <form
+      <AltToolsForm
         className="alternates-tool-form"
         onSubmit={event => event.preventDefault()}
         autoComplete="off"
@@ -99,13 +112,13 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
             onChange={handleInputChange}
           />
         </div>
-      </form>
-      <div className="legend">
+      </AltToolsForm>
+      <AltToolsLegend>
         <p>D - Destination</p>
         <p>A - Alternate</p>
         <p>EC - Escape Chart Airport</p>
-      </div>
-      <table className="alternates-tool-table">
+      </AltToolsLegend>
+      <AltToolsTable>
         <thead>
           <tr>
             <th>ICAO</th>
@@ -124,7 +137,10 @@ const AlternatesTool: React.FC<IAlternatesToolProps> = props => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </AltToolsTable>
+      <CloseMenu onClick={_toggleAlternatesTool}>
+        <X size={25} />
+      </CloseMenu>
     </AlternatesToolContainer>
   );
 };

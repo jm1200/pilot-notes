@@ -30,6 +30,7 @@ const App: React.FC = () => {
   const { navOpen, lastSynced, noteOpen } = useSelector(
     (state: RootState) => state.appState
   );
+  const { alternatesTool } = useSelector((state: RootState) => state.appState);
 
   const mainNavProps = {
     notes,
@@ -65,6 +66,9 @@ const App: React.FC = () => {
     activeNoteId,
     notes,
     activeCategoryId
+  };
+  const altToolsProps = {
+    alternatesTool
   };
 
   const lightTheme = () => ({
@@ -105,7 +109,7 @@ const App: React.FC = () => {
         <MainNav {...mainNavProps} />
         <NoteList {...noteListProps} />
         <Editor {...editorProps} />
-        <AlternatesTool />
+        <AlternatesTool {...altToolsProps} />
         <Footer {...footerProps} />
       </AppContainer>
     </ThemeProvider>

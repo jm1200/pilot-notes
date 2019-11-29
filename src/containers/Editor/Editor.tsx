@@ -8,7 +8,7 @@ import { ArrowLeft } from "react-feather";
 import { toggleNoteOpen } from "slices/appStateSlice";
 import { updateNote } from "slices/noteStateSlice";
 import { togglePreviewMarkdown } from "slices/settingsStateSlice";
-import { EditorContainer } from "./Editor.styles";
+import { EditorContainer, Previewer } from "./Editor.styles";
 
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/base16-light.css";
@@ -65,12 +65,12 @@ const Editor: React.FC<IEditorProps> = ({
       );
     } else if (previewMarkdown) {
       return (
-        <>
+        <Previewer>
           <ReactMarkdown className="previewer" source={activeNote.text} />
           <button className="preview-button" onClick={_togglePreviewMarkdown}>
             Edit
           </button>
-        </>
+        </Previewer>
       );
     } else {
       return (

@@ -3,7 +3,11 @@ import { useDispatch } from "react-redux";
 import { Folder, CategoryItem, NoteItem, ReactMouseEvent } from "types";
 import { Menu, Star, MoreHorizontal } from "react-feather";
 import { sortByFavorites, sortByLastUpdated, getNoteTitle } from "helpers";
-import { toggleMainNav, toggleNoteOpen } from "slices/appStateSlice";
+import {
+  toggleMainNav,
+  toggleNoteOpen,
+  setMainNav
+} from "slices/appStateSlice";
 import {
   pruneNotes,
   swapCategory,
@@ -64,7 +68,8 @@ const NoteList: React.FC<INoteListProps> = ({
   const dispatch = useDispatch();
   const showEmptyTrash = activeFolder === "trash" && filteredNotes.length > 0;
 
-  const _setNavOpen = () => dispatch(toggleMainNav());
+  const _toggleMainNav = () => dispatch(toggleMainNav());
+  const _setMainNav = (bool: boolean) => dispatch(setMainNav(bool));
   const _setNoteOpen = () => dispatch(toggleNoteOpen());
   const _swapNote = (noteId: string) => dispatch(swapNote(noteId));
   const _swapFolder = (folder: Folder) => dispatch(swapFolder(folder));
@@ -79,13 +84,14 @@ const NoteList: React.FC<INoteListProps> = ({
   };
 
   const toggleNavOpen = () => {
-    _setNavOpen();
+    _toggleMainNav();
   };
 
   const handleSwapNote = (noteId: string) => {
     _swapNote(noteId);
     _setNoteOpen();
     _pruneNotes();
+    _setMainNav(false);
   };
 
   const [noteOptionsId, setNoteOptionsId] = useState("");
