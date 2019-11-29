@@ -367,7 +367,37 @@ const MainNav: React.FC<IMainNavProps> = ({
             </AddCategoryForm>
           )}
         </MainNavBodyTopSection>
-        <MainNavBodyBottomSection>tools...</MainNavBodyBottomSection>
+        <MainNavBodyBottomSection>
+          <CategoryTitle>tools</CategoryTitle>
+          <CategoryList>
+            <CategoryListEach>
+              <MainNavActionButton
+                handler={toggleAlternates}
+                icon={Globe}
+                label={"Alternates Tool"}
+              />
+              <div className="category-list-name">Alternates Tool</div>
+            </CategoryListEach>
+            <CategoryListEach>
+              <MainNavActionButton
+                handler={toggleAlternates}
+                icon={Plus}
+                label={"Marketplace"}
+                disabled
+              />
+              <div className="category-list-name">MarketPlace</div>
+            </CategoryListEach>
+            <CategoryListEach>
+              <MainNavActionButton
+                handler={toggleAlternates}
+                icon={X}
+                label={"New Feature"}
+                disabled
+              />
+              <div className="category-list-name">New Feature</div>
+            </CategoryListEach>
+          </CategoryList>
+        </MainNavBodyBottomSection>
       </MainNavBody>
       {/* {lastSynced && ( */}
       <Synced className="main-nav-synced">

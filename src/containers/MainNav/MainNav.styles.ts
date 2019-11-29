@@ -198,6 +198,37 @@ export const AddCategoryForm = styled.form`
   }
 `;
 
-export const MainNavBodyBottomSection = styled.div``;
+export const MainNavBodyBottomSection = styled.div`
+  padding-bottom: 30px;
+`;
 
-export const Synced = styled.section``;
+export const Synced = styled.section`
+  display: none;
+
+  @media ${device.tablet} {
+    display: block;
+    width: 200px;
+    border-top: 1px solid
+      ${props =>
+        props.theme.mainNavBackground &&
+        darken(0.05, props.theme.mainNavBackground)};
+    border-right: 1px solid
+      ${props =>
+        props.theme.mainNavBackground &&
+        darken(0.1, props.theme.mainNavBackground)};
+    position: absolute;
+    bottom: 0;
+    width: $app-sidebar-width;
+    padding: 0.5rem;
+    background: ${props => props.theme.mainNavBackground};
+
+    .last-synced {
+      display: flex;
+      align-items: center;
+      color: ${props =>
+        props.theme.mainNavBackground &&
+        lighten(0.3, props.theme.mainNavBackground)};
+      font-size: 0.75rem;
+    }
+  }
+`;
