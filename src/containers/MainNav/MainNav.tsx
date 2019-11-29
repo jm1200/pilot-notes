@@ -12,7 +12,9 @@ import {
   Folder as FolderIcon,
   X,
   Book,
-  Check
+  Check,
+  Edit,
+  FileText
 } from "react-feather";
 
 import MainNavActionButton from "components/MainNavActionButton/MainNavActionButton";
@@ -21,7 +23,8 @@ import { toggleAlternatesTool } from "slices/appStateSlice";
 
 import {
   toggleDarkTheme,
-  updateCodeMirrorOptions
+  updateCodeMirrorOptions,
+  togglePreviewMarkdown
 } from "slices/settingsStateSlice";
 
 import {
@@ -65,6 +68,7 @@ interface IMainNavProps {
   activeFolder: Folder;
   navOpen: boolean;
   lastSynced: string;
+  previewMarkdown: boolean;
 }
 
 const MainNav: React.FC<IMainNavProps> = ({
@@ -75,7 +79,8 @@ const MainNav: React.FC<IMainNavProps> = ({
   activeCategoryId,
   activeFolder,
   navOpen,
-  lastSynced
+  lastSynced,
+  previewMarkdown
 }) => {
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
@@ -110,6 +115,7 @@ const MainNav: React.FC<IMainNavProps> = ({
   const _deleteCategory = (categoryId: string) => {
     dispatch(deleteCategory(categoryId));
   };
+  const _togglePreviewMarkdown = () => dispatch(togglePreviewMarkdown());
 
   const handleSwapFolder = (folder: Folder) => {
     _swapFolder(folder);
@@ -203,11 +209,20 @@ const MainNav: React.FC<IMainNavProps> = ({
           icon={Plus}
           label={"Add Note"}
         />
-        <MainNavActionButton
-          handler={toggleAlternates}
-          icon={Globe}
-          label={"Alternates Tool"}
-        />
+        {previewMarkdown ? (
+          <MainNavActionButton
+            handler={_togglePreviewMarkdown}
+            icon={Edit}
+            label={"Edit Mode"}
+          />
+        ) : (
+          <MainNavActionButton
+            handler={_togglePreviewMarkdown}
+            icon={FileText}
+            label={"Preview Mode"}
+          />
+        )}
+
         {darkThemeSetting ? (
           <MainNavActionButton
             handler={toggleDarkThemeHandler}
@@ -370,26 +385,26 @@ const MainNav: React.FC<IMainNavProps> = ({
         <MainNavBodyBottomSection>
           <CategoryTitle>tools</CategoryTitle>
           <CategoryList>
-            <CategoryListEach>
+            <CategoryListEach onClick={toggleAlternates}>
               <MainNavActionButton
-                handler={toggleAlternates}
+                handler={() => {}}
                 icon={Globe}
                 label={"Alternates Tool"}
               />
               <div className="category-list-name">Alternates Tool</div>
             </CategoryListEach>
-            <CategoryListEach>
+            <CategoryListEach onClick={() => {}}>
               <MainNavActionButton
-                handler={toggleAlternates}
+                handler={() => {}}
                 icon={Plus}
                 label={"Marketplace"}
                 disabled
               />
               <div className="category-list-name">MarketPlace</div>
             </CategoryListEach>
-            <CategoryListEach>
+            <CategoryListEach onClick={() => {}}>
               <MainNavActionButton
-                handler={toggleAlternates}
+                handler={() => {}}
                 icon={X}
                 label={"New Feature"}
                 disabled

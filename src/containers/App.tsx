@@ -39,7 +39,8 @@ const App: React.FC = () => {
     activeCategoryId,
     activeFolder,
     navOpen,
-    lastSynced
+    lastSynced,
+    previewMarkdown
   };
   const noteListProps = {
     notes,
@@ -56,6 +57,14 @@ const App: React.FC = () => {
     activeNoteId,
     loading,
     noteOpen
+  };
+  const footerProps = {
+    previewMarkdown,
+    noteOpen,
+    activeFolder,
+    activeNoteId,
+    notes,
+    activeCategoryId
   };
 
   const lightTheme = () => ({
@@ -97,7 +106,7 @@ const App: React.FC = () => {
         <NoteList {...noteListProps} />
         <Editor {...editorProps} />
         <AlternatesTool />
-        <Footer />
+        <Footer {...footerProps} />
       </AppContainer>
     </ThemeProvider>
   );

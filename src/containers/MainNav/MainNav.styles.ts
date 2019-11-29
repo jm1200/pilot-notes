@@ -12,6 +12,7 @@ export const MainNavContainer = styled.aside`
   padding: 1rem 0 0.25rem;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   background: ${props => props.theme.mainNavBackground};
   border-right: 1px solid ${props => props.theme.borderColor};
@@ -40,8 +41,12 @@ export const MainNavBody = styled.section`
 `;
 
 export const MainNavBodyTopSection = styled.div`
-  flex: 1;
-  padding-bottom: 3rem;
+  /* flex: 1; */
+  /* padding-bottom: 3rem; */
+
+  @media ${device.tablet} {
+    flex: 1;
+  }
 `;
 
 export const MainNavLink = styled.div`
@@ -77,7 +82,7 @@ export const MainNavLink = styled.div`
   }
 `;
 export const CategoryTitle = styled.h2`
-  margin: 1rem 0;
+  margin: 1rem 10px;
   color: lighten($app-sidebar-color, 20%);
   text-transform: uppercase;
   font-size: 0.7rem;

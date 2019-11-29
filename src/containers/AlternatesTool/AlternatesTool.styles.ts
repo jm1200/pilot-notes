@@ -10,8 +10,9 @@ export const AlternatesToolContainer = styled.aside`
   display: flex;
   flex-direction: column;
   z-index: 4;
+  height: 50%;
 
-  background: ${props => props.theme.alternatesToolBackground};
+  background: ${props => props.theme.editorBackground};
   padding: 20px;
   border: 2px solid darkgray;
   border-radius: 5px;
@@ -24,7 +25,6 @@ export const AlternatesToolContainer = styled.aside`
 
   @media ${device.tablet} {
     width: 450px;
-    height: 70%;
     margin-left: 25px;
   }
 `;
