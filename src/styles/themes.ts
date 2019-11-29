@@ -8,6 +8,8 @@ export const themes = {
       primary: "#5183f5",
       accentGrey: "#d0d0d0"
     },
+    boxShadow:
+      "0 8px 16px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.08)",
 
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, 'Helvetica Neue', sans-serif"

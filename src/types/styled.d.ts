@@ -22,5 +22,7 @@ declare module "styled-components" {
       primary: string;
       accentGrey: string;
     };
+
+    //boxShadow: string;
   }
 }
