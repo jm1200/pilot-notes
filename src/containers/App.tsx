@@ -83,12 +83,12 @@ const App: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  // const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
-  //   dispatch(syncState({ notes, categories }));
+  const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
+    dispatch(syncState({ notes, categories }));
 
-  // useInterval(() => {
-  //   _syncState(notes, categories);
-  // }, 20000);
+  useInterval(() => {
+    _syncState(notes, categories);
+  }, 20000);
 
   useEffect(() => {
     dispatch(_loadSettings());
