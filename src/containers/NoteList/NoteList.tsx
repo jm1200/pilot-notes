@@ -88,6 +88,7 @@ const NoteList: React.FC<INoteListProps> = ({
   };
 
   const handleSwapNote = (noteId: string) => {
+    console.log("swap note");
     _swapNote(noteId);
     _setNoteOpen();
     _pruneNotes();

@@ -81,32 +81,58 @@ const noteStateSlice = createSlice({
       ...state,
       notes: state.notes.filter(note => !note.trash)
     }),
-    addNote(state: NoteState, action: PayloadAction<NoteItem>) {
+    addNote: (state: NoteState, action: PayloadAction<NoteItem>) => {
       const newNote = action.payload;
-      state.notes.push(newNote);
+      return {
+        ...state,
+        notes: [...state.notes, newNote]
+      };
     },
-    updateNote(state: NoteState, action: PayloadAction<NoteItem>) {
+    updateNote: (state: NoteState, action: PayloadAction<NoteItem>) => {
       const updatedNote = action.payload;
-      state.notes = state.notes.map(note =>
-        note.id === updatedNote.id ? updatedNote : note
-      );
+      return {
+        ...state,
+        notes: state.notes.map(note =>
+          note.id === updatedNote.id ? updatedNote : note
+        )
+      };
     },
-    pruneNotes(state: NoteState) {
-      state.notes = state.notes.filter(
-        note => note.text !== "" || note.id === state.activeNoteId
-      );
+    pruneNotes: (state: NoteState) => {
+      console.log("slice prune notes");
+      return {
+        ...state,
+        notes: state.notes.filter(note => {
+          console.log(
+            "test",
+            note.text.slice(0, 20).includes("# New Route Title")
+          );
+          if (note.text === "" && note.id !== state.activeNoteId) {
+            return false;
+          } else if (
+            note.text.slice(0, 20).includes("# New Route Title") &&
+            note.id !== state.activeNoteId
+          ) {
+            return false;
+          }
+
+          return true;
+        })
+      };
     },
-    toggleTrashedNote(state: NoteState, action: PayloadAction<string>) {
+    toggleTrashedNote: (state: NoteState, action: PayloadAction<string>) => {
       console.log("move note to trash");
       const noteId = action.payload;
-      state.notes = state.notes.map(note =>
-        note.id === noteId ? { ...note, trash: !note.trash } : note
-      );
-      state.activeNoteId = getNewActiveNoteId(
-        state.notes,
-        noteId,
-        state.activeCategoryId
-      );
+      return {
+        ...state,
+        notes: state.notes.map(note =>
+          note.id === noteId ? { ...note, trash: !note.trash } : note
+        ),
+        activeNoteId: getNewActiveNoteId(
+          state.notes,
+          noteId,
+          state.activeCategoryId
+        )
+      };
     },
     toggleFavoriteNote(state: NoteState, action: PayloadAction<string>) {
       console.log("favorite");
@@ -125,15 +151,30 @@ const noteStateSlice = createSlice({
       );
     },
 
-    swapCategory(state, action: PayloadAction<string>) {
+    swapCategory: (state, action: PayloadAction<string>) => {
       const categoryId = action.payload;
-      state.activeCategoryId = categoryId;
-      state.activeFolder = "category";
-      state.activeNoteId = getFirstNoteId("category", state.notes, categoryId);
+
+      return {
+        ...state,
+        activeCategoryId: categoryId,
+        activeFolder: "category",
+        activeNoteId: getFirstNoteId("category", state.notes, categoryId)
+      };
     },
-    swapNote(state: NoteState, action: PayloadAction<string>) {
+    setActiveCategory: (state: NoteState, action: PayloadAction<string>) => {
+      const categoryId = action.payload;
+      return {
+        ...state,
+        activeCategoryId: categoryId,
+        activeFolder: "category" as Folder
+      };
+    },
+    swapNote: (state: NoteState, action: PayloadAction<string>) => {
       const noteId = action.payload;
-      state.activeNoteId = noteId;
+      return {
+        ...state,
+        activeNoteId: noteId
+      };
     },
     swapFolder(state: NoteState, action: PayloadAction<Folder>) {
       const folder = action.payload;
@@ -148,6 +189,7 @@ export const {
   loadNotesError,
   loadNotesSuccess,
   swapCategory,
+  setActiveCategory,
   deleteNote,
   toggleFavoriteNote,
   toggleTrashedNote,

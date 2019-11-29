@@ -33,3 +33,43 @@ export const newNote = (categoryId?: string, folder?: Folder): NoteItem => ({
   category: categoryId,
   favorite: folder === "favorites"
 });
+
+export const newRouteNote = (
+  categoryId?: string,
+  folder?: Folder
+): NoteItem => ({
+  id: uuid(),
+  text: `# New Route Title
+
+ ### Pre-Departure
+
+ yada yada yada... 
+
+ ### Departure
+
+ yada yada yada... 
+
+ ### Enroute 
+
+ yada yada yada... 
+
+ ### Arrival
+
+ yada yada yada... 
+ 
+ ### Threats
+
+yada yada yada...
+
+ ### Alternate Strings 
+
+ |Destination Alternates | VIJP VIAR OPLA VAAH OPKC VABB VOHS VECC VOMM | 
+ | --------------------- |:--------------------------------------------:|
+ |Northern Route         | VIAR OPLA VAAH OPKC VABB                     |
+ |Southern Route         | VIAR OPLA VAAH OPKC VABB                     |
+  `,
+  created: moment().format(),
+  lastUpdated: moment().format(),
+  category: categoryId,
+  favorite: folder === "favorites"
+});

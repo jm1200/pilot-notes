@@ -42,9 +42,15 @@ const Editor: React.FC<IEditorProps> = ({
 
   const _updateNote = (note: NoteItem) => dispatch(updateNote(note));
 
-  const handleEditorChange = (note: NoteItem) => {
-    console.log("editor, ", note);
-    _updateNote(note);
+  const handleEditorChange = (value: string) => {
+    if (activeNote) {
+      const note: NoteItem = {
+        ...activeNote,
+        text: value,
+        lastUpdated: moment().format()
+      };
+      _updateNote(note);
+    }
   };
 
   const renderEditor = () => {
@@ -84,12 +90,7 @@ const Editor: React.FC<IEditorProps> = ({
               editor.setCursor(0);
             }}
             onBeforeChange={(editor, data, value) => {
-              handleEditorChange({
-                id: activeNote.id,
-                text: value,
-                created: activeNote.created,
-                lastUpdated: moment().format()
-              });
+              handleEditorChange(value);
             }}
             onChange={(editor, data, value) => {
               if (!value) {

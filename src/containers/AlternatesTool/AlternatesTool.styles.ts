@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { device } from "styles/devices";
-import { lighten } from "polished";
 
 export const AlternatesToolContainer = styled.aside`
   position: absolute;

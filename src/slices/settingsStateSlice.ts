@@ -57,6 +57,16 @@ const settingsStateSlice = createSlice({
       };
       return newState;
     },
+    setPreviewMarkdown: (
+      state: SettingsState,
+      action: PayloadAction<boolean>
+    ) => {
+      const mode = action.payload;
+      return {
+        ...state,
+        previewMarkdown: mode
+      };
+    },
 
     toggleDarkTheme: (state: SettingsState) => {
       return {
@@ -73,7 +83,8 @@ export const {
   _loadSettingsSuccess,
   togglePreviewMarkdown,
   toggleDarkTheme,
-  updateCodeMirrorOptions
+  updateCodeMirrorOptions,
+  setPreviewMarkdown
 } = settingsStateSlice.actions;
 
 export default settingsStateSlice.reducer;

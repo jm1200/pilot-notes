@@ -5,6 +5,7 @@ import {
   Sun,
   Moon,
   Globe,
+  PlusCircle,
   Plus,
   Star,
   Trash2,
@@ -24,11 +25,13 @@ import { toggleAlternatesTool } from "slices/appStateSlice";
 import {
   toggleDarkTheme,
   updateCodeMirrorOptions,
-  togglePreviewMarkdown
+  togglePreviewMarkdown,
+  setPreviewMarkdown
 } from "slices/settingsStateSlice";
 
 import {
   swapCategory,
+  setActiveCategory,
   addNote,
   swapFolder,
   swapNote
@@ -40,9 +43,15 @@ import {
   updateCategory
 } from "slices/categoryStateSlice";
 
-import { CategoryItem, Folder, NoteItem, ReactSubmitEvent } from "types";
+import {
+  CategoryItem,
+  Folder,
+  NoteItem,
+  ReactSubmitEvent,
+  ReactMouseEvent
+} from "types";
 
-import { newNote } from "helpers";
+import { newNote, newRouteNote } from "helpers";
 
 import {
   MainNavContainer,
@@ -107,6 +116,9 @@ const MainNav: React.FC<IMainNavProps> = ({
   const _swapNote = (noteId: string) => {
     dispatch(swapNote(noteId));
   };
+  const _setActiveCategory = (noteId: string) => {
+    dispatch(setActiveCategory(noteId));
+  };
 
   const _updateCategory = (oldId: string, newId: string) => {
     dispatch(updateCategory({ oldId, newId }));
@@ -116,6 +128,8 @@ const MainNav: React.FC<IMainNavProps> = ({
     dispatch(deleteCategory(categoryId));
   };
   const _togglePreviewMarkdown = () => dispatch(togglePreviewMarkdown());
+  const _setPreviewMarkdown = (bool: boolean) =>
+    dispatch(setPreviewMarkdown(bool));
 
   const handleSwapFolder = (folder: Folder) => {
     _swapFolder(folder);
@@ -136,6 +150,31 @@ const MainNav: React.FC<IMainNavProps> = ({
       );
       _addNote(note);
       _swapNote(note.id);
+      _setPreviewMarkdown(false);
+    }
+  };
+
+  const handleNewRouteNote = (e: ReactMouseEvent) => {
+    e.stopPropagation();
+    if (activeFolder === "trash") {
+      _swapFolder("all");
+    }
+
+    if (
+      (activeNote &&
+        activeNote.text !== "" &&
+        activeNote &&
+        !activeNote.text.slice(0, 20).includes("# New Route Title")) ||
+      !activeNote
+    ) {
+      const note = newRouteNote(
+        "routes",
+        activeFolder === "favorites" ? "favorites" : "all"
+      );
+      _addNote(note);
+      _setActiveCategory("routes");
+      _swapNote(note.id);
+      _setPreviewMarkdown(false);
     }
   };
 
@@ -282,6 +321,12 @@ const MainNav: React.FC<IMainNavProps> = ({
                 <ArrowRightCircle size={15} className="main-nav-icon" />
                 Routes
               </div>
+              <div
+                className="category-options"
+                onClick={e => handleNewRouteNote(e)}
+              >
+                <PlusCircle size={16} aria-label="Remove category" />
+              </div>
             </CategoryListEach>
 
             {categories.map(category => {
@@ -414,15 +459,14 @@ const MainNav: React.FC<IMainNavProps> = ({
           </CategoryList>
         </MainNavBodyBottomSection>
       </MainNavBody>
-      {/* {lastSynced && ( */}
-      <Synced className="main-nav-synced">
-        <div className="last-synced">
-          <Check size={14} className="main-nav-icon" />{" "}
-          {moment(lastSynced).format("h:mm A on M/D/Y")}
-          sync
-        </div>
-      </Synced>
-      {/* )} */}
+      {lastSynced && (
+        <Synced className="main-nav-synced">
+          <div className="last-synced">
+            <Check size={14} className="main-nav-icon" />{" "}
+            {moment(lastSynced).format("h:mm A on M/D/Y")}
+          </div>
+        </Synced>
+      )}
     </MainNavContainer>
   );
 };

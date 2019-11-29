@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "types";
+import { useDispatch } from "react-redux";
 import data from "data/alts.json";
 import { AltObject } from "types";
 import { X } from "react-feather";
