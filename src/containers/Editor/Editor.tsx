@@ -8,7 +8,7 @@ import { ArrowLeft } from "react-feather";
 import { toggleNoteOpen } from "slices/appStateSlice";
 import { updateNote } from "slices/noteStateSlice";
 import { togglePreviewMarkdown } from "slices/settingsStateSlice";
-import { EditorContainer } from "./Editor.styles";
+import { EditorContainer, Previewer } from "./Editor.styles";
 
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/base16-light.css";
@@ -42,9 +42,15 @@ const Editor: React.FC<IEditorProps> = ({
 
   const _updateNote = (note: NoteItem) => dispatch(updateNote(note));
 
-  const handleEditorChange = (note: NoteItem) => {
-    console.log("editor, ", note);
-    _updateNote(note);
+  const handleEditorChange = (value: string) => {
+    if (activeNote) {
+      const note: NoteItem = {
+        ...activeNote,
+        text: value,
+        lastUpdated: moment().format()
+      };
+      _updateNote(note);
+    }
   };
 
   const renderEditor = () => {
@@ -65,12 +71,12 @@ const Editor: React.FC<IEditorProps> = ({
       );
     } else if (previewMarkdown) {
       return (
-        <>
+        <Previewer>
           <ReactMarkdown className="previewer" source={activeNote.text} />
           <button className="preview-button" onClick={_togglePreviewMarkdown}>
             Edit
           </button>
-        </>
+        </Previewer>
       );
     } else {
       return (
@@ -84,12 +90,7 @@ const Editor: React.FC<IEditorProps> = ({
               editor.setCursor(0);
             }}
             onBeforeChange={(editor, data, value) => {
-              handleEditorChange({
-                id: activeNote.id,
-                text: value,
-                created: activeNote.created,
-                lastUpdated: moment().format()
-              });
+              handleEditorChange(value);
             }}
             onChange={(editor, data, value) => {
               if (!value) {

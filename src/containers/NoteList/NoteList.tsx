@@ -3,7 +3,11 @@ import { useDispatch } from "react-redux";
 import { Folder, CategoryItem, NoteItem, ReactMouseEvent } from "types";
 import { Menu, Star, MoreHorizontal } from "react-feather";
 import { sortByFavorites, sortByLastUpdated, getNoteTitle } from "helpers";
-import { toggleMainNav, toggleNoteOpen } from "slices/appStateSlice";
+import {
+  toggleMainNav,
+  toggleNoteOpen,
+  setMainNav
+} from "slices/appStateSlice";
 import {
   pruneNotes,
   swapCategory,
@@ -15,7 +19,12 @@ import {
 import _ from "lodash";
 import NoteOptions from "../NoteOptions";
 import NoteListButton from "components/NoteListButton";
-import { NoteListContainer } from "./NoteList.styles";
+import {
+  NoteListContainer,
+  NoteSidebarHeader,
+  NoteListDiv,
+  NoteListEach
+} from "./NoteList.styles";
 
 interface INoteListProps {
   notes: NoteItem[];
@@ -59,7 +68,8 @@ const NoteList: React.FC<INoteListProps> = ({
   const dispatch = useDispatch();
   const showEmptyTrash = activeFolder === "trash" && filteredNotes.length > 0;
 
-  const _setNavOpen = () => dispatch(toggleMainNav());
+  const _toggleMainNav = () => dispatch(toggleMainNav());
+  const _setMainNav = (bool: boolean) => dispatch(setMainNav(bool));
   const _setNoteOpen = () => dispatch(toggleNoteOpen());
   const _swapNote = (noteId: string) => dispatch(swapNote(noteId));
   const _swapFolder = (folder: Folder) => dispatch(swapFolder(folder));
@@ -74,13 +84,15 @@ const NoteList: React.FC<INoteListProps> = ({
   };
 
   const toggleNavOpen = () => {
-    _setNavOpen();
+    _toggleMainNav();
   };
 
   const handleSwapNote = (noteId: string) => {
+    console.log("swap note");
     _swapNote(noteId);
     _setNoteOpen();
     _pruneNotes();
+    _setMainNav(false);
   };
 
   const [noteOptionsId, setNoteOptionsId] = useState("");
@@ -138,7 +150,7 @@ const NoteList: React.FC<INoteListProps> = ({
     <NoteListContainer
       className={`note-sidebar ${noteOpen ? "note-open" : ""}`}
     >
-      <div className="note-sidebar-header">
+      <NoteSidebarHeader>
         <div className="mobile-sidebar-options">
           <button className="toggle-mobile-nav" onClick={toggleNavOpen}>
             <Menu />
@@ -154,20 +166,16 @@ const NoteList: React.FC<INoteListProps> = ({
             Empty Trash
           </NoteListButton>
         )}
-      </div>
-      <div className="note-list">
+      </NoteSidebarHeader>
+      <NoteListDiv>
         {filteredNotes.map(note => {
           let noteTitle: string | React.ReactElement = getNoteTitle(note.text);
           if (searchValue) {
             //todo: highlight note titles
           }
           return (
-            <div
-              className={
-                note.id === activeNoteId
-                  ? "note-list-each active"
-                  : "note-list-each"
-              }
+            <NoteListEach
+              className={note.id === activeNoteId ? "active" : ""}
               key={note.id}
               onClick={() => handleSwapNote(note.id)}
             >
@@ -248,10 +256,10 @@ const NoteList: React.FC<INoteListProps> = ({
                   <NoteOptions clickedNote={note} />
                 </div>
               )}
-            </div>
+            </NoteListEach>
           );
         })}
-      </div>
+      </NoteListDiv>
     </NoteListContainer>
   );
 };
