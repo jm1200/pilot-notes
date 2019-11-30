@@ -34,7 +34,15 @@ export const NoteSidebarHeader = styled.div`
   .toggle-mobile-nav {
     padding: 0.25rem 1rem;
     margin-right: 0.5rem;
-    color: ${props => props.theme.color};
+    color: ${props => props.theme.colors.lightFontColor};
+    background: ${props => props.theme.colors.primary};
+    border-radius: 4px;
+    border: none;
+
+    &:focus,
+    &:hover {
+      outline: none;
+    }
 
     @media ${device.tablet} {
       display: none;

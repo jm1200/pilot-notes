@@ -7,11 +7,8 @@ export const AlternatesToolContainer = styled.aside`
   top: 100px;
   left: -700px;
   transition: all 1s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   z-index: 4;
-  height: 50%;
+  height: 400px;
 
   background: ${props => props.theme.editorBackground};
   padding: 20px;
@@ -28,13 +25,17 @@ export const AlternatesToolContainer = styled.aside`
     width: 450px;
     margin-left: 25px;
   }
+
+  h1 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 `;
 
-export const AltToolsForm = styled.form`
-  display: flex;
-  flex-direction: column;
+export const AltToolsForm = styled.div`
   width: 90%;
-  margin: auto;
+  margin: 0 auto;
 
   .select-container {
     display: flex;
@@ -64,11 +65,13 @@ export const AltToolsForm = styled.form`
 `;
 
 export const AltToolsLegend = styled.div`
-  font-size: 0.5rem;
-  width: 90%;
-  margin: 1rem auto 0 auto;
   display: flex;
   justify-content: space-around;
+  margin: 0 auto;
+  padding: 15px 0;
+  width: 100%;
+  font-size: 0.5rem;
+  width: 90%;
 
   p {
     margin: 0;
@@ -77,24 +80,32 @@ export const AltToolsLegend = styled.div`
 
 export const AltToolsTable = styled.table`
   width: 95%;
-  margin-top: 2rem;
-
+  margin: 0 auto;
   thead {
-    margin-bottom: 14rem;
-    padding: 30px;
+    width: 100%;
     font-size: 1.1rem;
+
+    tr {
+      width: 100%;
+      margin-bottom: 15px;
+    }
   }
   tbody {
+    width: 100%;
     tr {
-      text-align: center;
+      width: 100%;
+
+      td {
+        text-align: center;
+        padding: 5px 0;
+      }
     }
   }
 
-  tbody::before {
-    content: "";
-    display: block;
+  /* tbody::before {
+    content: normal;
     height: 15px;
-  }
+  } */
 `;
 
 export const CloseMenu = styled.div`
