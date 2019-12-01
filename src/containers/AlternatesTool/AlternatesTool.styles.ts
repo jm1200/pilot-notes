@@ -5,7 +5,7 @@ export const AlternatesToolContainer = styled.aside`
   position: absolute;
   width: 95%;
   top: 100px;
-  left: -700px;
+  left: -1000px;
   transition: all 1s ease;
   z-index: 4;
   height: 400px;

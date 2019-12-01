@@ -19,7 +19,7 @@ export const MainNavContainer = styled.aside`
   color: ${props => props.theme.colors.lightFontColor};
 
   &.open {
-    flex: 0 0 200px;
+    flex: 0 0 300px;
   }
 
   @media ${device.tablet} {
@@ -32,6 +32,7 @@ export const MainNavActions = styled.section`
   align-items: center;
   justify-content: space-around;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 `;
 
 export const MainNavBody = styled.section`

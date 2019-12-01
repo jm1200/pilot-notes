@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { darken } from "polished";
+import { device } from "styles/devices";
 
 export const ActionButton = styled.button`
   padding: 0.7rem;
@@ -9,7 +10,9 @@ export const ActionButton = styled.button`
   border: none;
   border-radius: 4px;
   color: ${props => props.theme.colors.lightFontColor};
-
+  @media ${device.tablet} {
+    margin: 0.5rem 0.5rem;
+  }
   &:hover {
     background: ${props => props.theme.colors.primary};
     outline: none;

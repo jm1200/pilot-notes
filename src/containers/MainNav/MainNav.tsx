@@ -15,7 +15,9 @@ import {
   Book,
   Check,
   Edit,
-  FileText
+  FileText,
+  Slash,
+  UploadCloud
 } from "react-feather";
 
 import MainNavActionButton from "components/MainNavActionButton/MainNavActionButton";
@@ -78,6 +80,7 @@ interface IMainNavProps {
   navOpen: boolean;
   lastSynced: string;
   previewMarkdown: boolean;
+  online: boolean;
 }
 
 const MainNav: React.FC<IMainNavProps> = ({
@@ -89,7 +92,8 @@ const MainNav: React.FC<IMainNavProps> = ({
   activeFolder,
   navOpen,
   lastSynced,
-  previewMarkdown
+  previewMarkdown,
+  online
 }) => {
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
@@ -272,6 +276,19 @@ const MainNav: React.FC<IMainNavProps> = ({
           <MainNavActionButton
             handler={toggleDarkThemeHandler}
             icon={Moon}
+            label={"choose theme"}
+          />
+        )}
+        {online ? (
+          <MainNavActionButton
+            handler={toggleDarkThemeHandler}
+            icon={UploadCloud}
+            label={"choose theme"}
+          />
+        ) : (
+          <MainNavActionButton
+            handler={toggleDarkThemeHandler}
+            icon={Slash}
             label={"choose theme"}
           />
         )}
