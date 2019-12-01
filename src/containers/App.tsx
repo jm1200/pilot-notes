@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import MainNav from "./MainNav/MainNav";
 import NoteList from "./NoteList/NoteList";
 import Editor from "./Editor/Editor";
+import LandingPage from "./LandingPage/LandingPage";
 import AlternatesTool from "./AlternatesTool/AlternatesTool";
 import { RootState, NoteItem, CategoryItem } from "types";
 import { _loadSettings } from "slices/settingsStateSlice";
@@ -106,6 +107,7 @@ const App: React.FC = () => {
     <ThemeProvider theme={darkThemeSetting ? darkTheme : lightTheme}>
       <GlobalStyle />
       <AppContainer className={`app ${darkThemeSetting ? "dark" : ""}`}>
+        {/* <LandingPage /> */}
         <MainNav {...mainNavProps} />
         <NoteList {...noteListProps} />
         <Editor {...editorProps} />

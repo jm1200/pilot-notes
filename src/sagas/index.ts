@@ -45,7 +45,6 @@ function* syncSettings() {
 
 function* postState({ payload }: SyncStateAction) {
   try {
-    console.log("syncing state with this payload: ", payload);
     yield saveState(payload);
 
     yield put(syncStateSuccess(moment().format()));

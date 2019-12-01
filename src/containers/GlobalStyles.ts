@@ -44,6 +44,24 @@ export const GlobalStyle = createGlobalStyle`
         }
     }
 
+    .button, a.button, button, [type=submit], [type=reset], [type=button] {
+        background: ${props => props.theme.colors.primary};
+        border: 2px solid ${props => props.theme.colors.primary};
+        border-radius: 4px;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 0.75rem 1.25rem;
+        margin: 0 0 0.5rem 0;
+        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        line-height: 1;
+}
+        
+    
+
   
 
 `;

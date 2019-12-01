@@ -1,14 +1,14 @@
 import React from "react";
-import { NoteItem, Folder } from "types";
+import { NoteItem } from "types";
 import NoteOptionsButton from "components/NoteOptionsButton";
 import { X, ArrowUp, Star, Trash } from "react-feather";
 import { useDispatch } from "react-redux";
 import {
   toggleTrashedNote,
   deleteNote,
-  toggleFavoriteNote,
-  swapCategory,
-  swapFolder
+  toggleFavoriteNote
+  // swapCategory,
+  // swapFolder
 } from "slices/noteStateSlice";
 
 interface INoteOptionsProps {
@@ -23,12 +23,12 @@ const NoteOptions: React.FC<INoteOptionsProps> = ({ clickedNote }) => {
     dispatch(toggleTrashedNote(noteId));
   const _toggleFavoriteNote = (noteId: string) =>
     dispatch(toggleFavoriteNote(noteId));
-  const _swapCategory = (catId: string) => {
-    dispatch(swapCategory(catId));
-  };
-  const _swapFolder = (folder: Folder) => {
-    dispatch(swapFolder(folder));
-  };
+  // const _swapCategory = (catId: string) => {
+  //   dispatch(swapCategory(catId));
+  // };
+  // const _swapFolder = (folder: Folder) => {
+  //   dispatch(swapFolder(folder));
+  // };
 
   const handleTrashNote = () => {
     _toggleTrashedNote(note.id);
