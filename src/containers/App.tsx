@@ -32,7 +32,6 @@ const App: React.FC = () => {
     (state: RootState) => state.appState
   );
   const { alternatesTool } = useSelector((state: RootState) => state.appState);
-  const [online, setOnline] = React.useState(window.navigator.onLine);
 
   const mainNavProps = {
     notes,
@@ -43,8 +42,7 @@ const App: React.FC = () => {
     activeFolder,
     navOpen,
     lastSynced,
-    previewMarkdown,
-    online
+    previewMarkdown
   };
   const noteListProps = {
     notes,
@@ -104,20 +102,6 @@ const App: React.FC = () => {
   useEffect(() => {
     dispatch(loadCategories());
   }, [dispatch]);
-
-  useEffect(() => {
-    console.log(online);
-
-    window.addEventListener("offline", () => setOnline(false));
-
-    window.addEventListener("online", () => setOnline(true));
-
-    return () => {
-      window.removeEventListener("offline", () => setOnline(false));
-
-      window.removeEventListener("online", () => setOnline(true));
-    };
-  }, [online]);
 
   return (
     <ThemeProvider theme={darkThemeSetting ? darkTheme : lightTheme}>

@@ -69,6 +69,8 @@ import {
   AddCategoryButton,
   AddCategoryForm
 } from "./MainNav.styles";
+//@ts-ignore
+import { Offline, Online } from "react-detect-offline";
 
 interface IMainNavProps {
   notes: NoteItem[];
@@ -80,7 +82,6 @@ interface IMainNavProps {
   navOpen: boolean;
   lastSynced: string;
   previewMarkdown: boolean;
-  online: boolean;
 }
 
 const MainNav: React.FC<IMainNavProps> = ({
@@ -92,8 +93,7 @@ const MainNav: React.FC<IMainNavProps> = ({
   activeFolder,
   navOpen,
   lastSynced,
-  previewMarkdown,
-  online
+  previewMarkdown
 }) => {
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
@@ -279,19 +279,20 @@ const MainNav: React.FC<IMainNavProps> = ({
             label={"choose theme"}
           />
         )}
-        {online ? (
+        <Online>
           <MainNavActionButton
             handler={toggleDarkThemeHandler}
             icon={UploadCloud}
             label={"choose theme"}
           />
-        ) : (
+        </Online>
+        <Offline>
           <MainNavActionButton
             handler={toggleDarkThemeHandler}
             icon={Slash}
             label={"choose theme"}
           />
-        )}
+        </Offline>
       </MainNavActions>
       <MainNavBody>
         <MainNavBodyTopSection>
