@@ -98,14 +98,9 @@ const noteStateSlice = createSlice({
       };
     },
     pruneNotes: (state: NoteState) => {
-      console.log("slice prune notes");
       return {
         ...state,
         notes: state.notes.filter(note => {
-          console.log(
-            "test",
-            note.text.slice(0, 20).includes("# New Route Title")
-          );
           if (note.text === "" && note.id !== state.activeNoteId) {
             return false;
           } else if (
@@ -120,7 +115,6 @@ const noteStateSlice = createSlice({
       };
     },
     toggleTrashedNote: (state: NoteState, action: PayloadAction<string>) => {
-      console.log("move note to trash");
       const noteId = action.payload;
       return {
         ...state,
@@ -135,7 +129,6 @@ const noteStateSlice = createSlice({
       };
     },
     toggleFavoriteNote(state: NoteState, action: PayloadAction<string>) {
-      console.log("favorite");
       const noteId = action.payload;
       state.notes = state.notes.map(note =>
         note.id === noteId ? { ...note, favorite: !note.favorite } : note

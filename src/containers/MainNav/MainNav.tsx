@@ -38,7 +38,8 @@ import {
   setActiveCategory,
   addNote,
   swapFolder,
-  swapNote
+  swapNote,
+  loadNotes
 } from "slices/noteStateSlice";
 
 import {
@@ -75,6 +76,7 @@ import {
 import { Offline, Online } from "react-detect-offline";
 import { User } from "firebase";
 import { saveNotesToFirestore, loadNotesFromFirestore } from "api";
+import { db, auth } from "../../firebase/firebase";
 
 interface IMainNavProps {
   notes: NoteItem[];
@@ -250,7 +252,6 @@ const MainNav: React.FC<IMainNavProps> = ({
   };
 
   const openSignInModal = () => {
-    console.log("test modal");
     setSignInModal(true);
   };
   const _saveNotesToFirestore = () => {
@@ -258,7 +259,34 @@ const MainNav: React.FC<IMainNavProps> = ({
     //dispatch(syncState({ notes, categories }))
   };
   const _loadNotesFromFirestore = () => {
-    loadNotesFromFirestore();
+    if (auth.currentUser && auth.currentUser.uid) {
+      const user = auth.currentUser.uid;
+      const ref = db.collection("userNotes").doc(user);
+
+      ref
+        .get()
+        .then(function(doc) {
+          if (doc.exists) {
+            const data = doc.data();
+
+            if (data) {
+              localStorage.setItem(
+                "categories",
+                JSON.stringify(data.categories)
+              );
+              localStorage.setItem("notes", JSON.stringify(data.notes));
+              localStorage.setItem("meta", JSON.stringify(data.meta));
+              dispatch(loadNotes());
+            }
+          } else {
+            console.log("No such document!");
+          }
+        })
+        .catch(function(error) {
+          console.log("Error getting document:", error);
+          return false;
+        });
+    }
   };
 
   const resetTempCategory = () => {

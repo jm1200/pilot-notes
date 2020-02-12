@@ -100,7 +100,14 @@ export const loadNotesFromFirestore = () => {
       .then(function(doc) {
         if (doc.exists) {
           console.log("Document data:", doc.data());
-          return doc.data();
+          const data = doc.data();
+          console.log("data", data);
+          if (data) {
+            localStorage.setItem("categories", JSON.stringify(data.categories));
+            localStorage.setItem("notes", JSON.stringify(data.notes));
+            localStorage.setItem("meta", JSON.stringify(data.meta));
+          }
+          console.log("LS", localStorage);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");

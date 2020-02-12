@@ -16,7 +16,6 @@ import { GlobalStyle } from "./GlobalStyles";
 import { AppContainer } from "./App.styles";
 import { themes } from "styles/themes";
 import Footer from "./Footer/Footer";
-import { loadNotesFromFirestore } from "api";
 
 const App: React.FC = () => {
   const {
@@ -90,12 +89,10 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   const _syncState = (notes: NoteItem[], categories: CategoryItem[]) => {
-    console.log("meta ", meta);
     dispatch(syncState({ notes, categories, meta }));
   };
 
   useInterval(() => {
-    console.log("syncing state");
     _syncState(notes, categories);
   }, 20000);
 
