@@ -17,12 +17,14 @@ import {
   Edit,
   FileText,
   Slash,
-  UploadCloud
+  UploadCloud,
+  DownloadCloud
 } from "react-feather";
 
 import MainNavActionButton from "components/MainNavActionButton/MainNavActionButton";
-
-import { toggleAlternatesTool } from "slices/appStateSlice";
+import SignInModal from "components/SignInModal/SignInModal";
+import { signOutUser } from "api";
+import { toggleAlternatesTool, syncState } from "slices/appStateSlice";
 
 import {
   toggleDarkTheme,
@@ -71,6 +73,8 @@ import {
 } from "./MainNav.styles";
 //@ts-ignore
 import { Offline, Online } from "react-detect-offline";
+import { User } from "firebase";
+import { saveNotesToFirestore, loadNotesFromFirestore } from "api";
 
 interface IMainNavProps {
   notes: NoteItem[];
@@ -82,6 +86,8 @@ interface IMainNavProps {
   navOpen: boolean;
   lastSynced: string;
   previewMarkdown: boolean;
+  user: User | undefined;
+  meta: any;
 }
 
 const MainNav: React.FC<IMainNavProps> = ({
@@ -93,15 +99,20 @@ const MainNav: React.FC<IMainNavProps> = ({
   activeFolder,
   navOpen,
   lastSynced,
-  previewMarkdown
+  previewMarkdown,
+  user,
+  meta
 }) => {
   const [editingCategoryId, setEditingCategoryId] = useState("");
   const [addingTempCategory, setAddingTempCategory] = useState(false);
   const [tempCategoryName, setTempCategoryName] = useState("");
+  const [signInModal, setSignInModal] = useState(false);
 
   const activeNote = notes.find(note => note.id === activeNoteId);
 
   const dispatch = useDispatch();
+  // const _loginUser = (user: User) => dispatch(loginUser(user));
+  // const _logoutUser = () => dispatch(logoutUser);
   const _addCategory = (category: CategoryItem) =>
     dispatch(addCategory(category));
 
@@ -238,6 +249,18 @@ const MainNav: React.FC<IMainNavProps> = ({
     }
   };
 
+  const openSignInModal = () => {
+    console.log("test modal");
+    setSignInModal(true);
+  };
+  const _saveNotesToFirestore = () => {
+    saveNotesToFirestore(notes, categories, meta);
+    //dispatch(syncState({ notes, categories }))
+  };
+  const _loadNotesFromFirestore = () => {
+    loadNotesFromFirestore();
+  };
+
   const resetTempCategory = () => {
     setTempCategoryName("");
     setAddingTempCategory(false);
@@ -280,17 +303,31 @@ const MainNav: React.FC<IMainNavProps> = ({
           />
         )}
         <Online>
+          <p style={{ color: "green" }}>online</p>
+        </Online>
+        <Online>
           <MainNavActionButton
-            handler={toggleDarkThemeHandler}
+            handler={_saveNotesToFirestore}
             icon={UploadCloud}
-            label={"choose theme"}
+            label={"save"}
+          />
+        </Online>
+        <Online>
+          <MainNavActionButton
+            handler={_loadNotesFromFirestore}
+            icon={DownloadCloud}
+            label={"load"}
           />
         </Online>
         <Offline>
+          <p style={{ color: "red" }}>offline</p>
+        </Offline>
+        <Offline>
           <MainNavActionButton
-            handler={toggleDarkThemeHandler}
+            handler={() => {}}
             icon={Slash}
             label={"choose theme"}
+            disabled
           />
         </Offline>
       </MainNavActions>
@@ -465,15 +502,27 @@ const MainNav: React.FC<IMainNavProps> = ({
               />
               <div className="category-list-name">MarketPlace</div>
             </CategoryListEach>
-            <CategoryListEach onClick={() => {}}>
-              <MainNavActionButton
-                handler={() => {}}
-                icon={X}
-                label={"New Feature"}
-                disabled
-              />
-              <div className="category-list-name">New Feature</div>
-            </CategoryListEach>
+            {user ? (
+              <CategoryListEach onClick={signOutUser}>
+                <MainNavActionButton
+                  handler={() => {}}
+                  icon={X}
+                  label={"Sign Out"}
+                  disabled
+                />
+                <div className="category-list-name">Sign Out</div>
+              </CategoryListEach>
+            ) : (
+              <CategoryListEach onClick={openSignInModal}>
+                <MainNavActionButton
+                  handler={openSignInModal}
+                  icon={X}
+                  label={"Sign In"}
+                  disabled
+                />
+                <div className="category-list-name">Sign In</div>
+              </CategoryListEach>
+            )}
           </CategoryList>
         </MainNavBodyBottomSection>
       </MainNavBody>
@@ -485,6 +534,7 @@ const MainNav: React.FC<IMainNavProps> = ({
           </div>
         </Synced>
       )}
+      {signInModal ? <SignInModal setSignInModal={setSignInModal} /> : null}
     </MainNavContainer>
   );
 };

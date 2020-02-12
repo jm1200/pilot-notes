@@ -24,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
       user-select: initial;
      }  */
 
-    [type='text'], [type='search'] {
+    [type='text'], [type='search'], [type='email'], [type='password'] {
         display: block;
         border-radius: 4px;
         border: 1px solid ${props => props.theme.colors.accentGrey};

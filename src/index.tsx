@@ -4,7 +4,8 @@ import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
-import App from "./containers/App";
+//import App from "./containers/App";
+import AuthLayer from "./AuthLayer";
 import * as serviceWorker from "./serviceWorker";
 import rootSaga from "sagas";
 import rootReducer from "slices";
@@ -14,14 +15,14 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [sagaMiddleware, ...getDefaultMiddleware({ thunk: false })]
+  middleware: [sagaMiddleware]
 });
 
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <AuthLayer />
   </Provider>,
   document.getElementById("root")
 );

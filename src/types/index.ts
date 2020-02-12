@@ -1,4 +1,6 @@
 import { syncState } from "slices/appStateSlice";
+import { User } from "firebase";
+import { MomentCreationData } from "moment";
 
 export interface AltObject {
   icao: string;
@@ -28,6 +30,10 @@ export interface CategoryItem {
   id: string;
 }
 
+export interface MetaData {
+  date: any;
+}
+
 export type Folder = "all" | "trash" | "favorites" | "category";
 
 export interface AppState {
@@ -41,6 +47,10 @@ export interface AppState {
   syncError: string;
 }
 
+export interface AuthState {
+  user: User | undefined;
+  signedIn: boolean;
+}
 export interface SettingsState {
   previewMarkdown: boolean;
   loading: boolean;
@@ -66,6 +76,7 @@ export interface CodeMirrorOptions {
 export interface SyncStatePayload {
   categories: CategoryItem[];
   notes: NoteItem[];
+  meta: MetaData;
 }
 
 export interface SyncStateAction {
@@ -98,6 +109,7 @@ export interface RootState {
   settingsState: SettingsState;
   noteState: NoteState;
   categoryState: CategoryState;
+  authState: AuthState;
 }
 
 //==============================================================================

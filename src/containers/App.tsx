@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import MainNav from "./MainNav/MainNav";
 import NoteList from "./NoteList/NoteList";
 import Editor from "./Editor/Editor";
-import LandingPage from "./LandingPage/LandingPage";
+//import LandingPage from "./LandingPage/LandingPage";
 import AlternatesTool from "./AlternatesTool/AlternatesTool";
 import { RootState, NoteItem, CategoryItem } from "types";
 import { _loadSettings } from "slices/settingsStateSlice";
@@ -16,6 +16,7 @@ import { GlobalStyle } from "./GlobalStyles";
 import { AppContainer } from "./App.styles";
 import { themes } from "styles/themes";
 import Footer from "./Footer/Footer";
+import { loadNotesFromFirestore } from "api";
 
 const App: React.FC = () => {
   const {
@@ -32,6 +33,8 @@ const App: React.FC = () => {
     (state: RootState) => state.appState
   );
   const { alternatesTool } = useSelector((state: RootState) => state.appState);
+  const meta = { date: new Date() };
+  const { user } = useSelector((state: RootState) => state.authState);
 
   const mainNavProps = {
     notes,
@@ -42,7 +45,9 @@ const App: React.FC = () => {
     activeFolder,
     navOpen,
     lastSynced,
-    previewMarkdown
+    previewMarkdown,
+    user,
+    meta
   };
   const noteListProps = {
     notes,
@@ -84,10 +89,13 @@ const App: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const _syncState = (notes: NoteItem[], categories: CategoryItem[]) =>
-    dispatch(syncState({ notes, categories }));
+  const _syncState = (notes: NoteItem[], categories: CategoryItem[]) => {
+    console.log("meta ", meta);
+    dispatch(syncState({ notes, categories, meta }));
+  };
 
   useInterval(() => {
+    console.log("syncing state");
     _syncState(notes, categories);
   }, 20000);
 
